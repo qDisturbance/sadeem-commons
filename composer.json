@@ -1,0 +1,43 @@
+{
+  "name": "sadeem/commons",
+  "description": "common modules used inside an api project",
+  "keywords": [
+    "api",
+    "category",
+    "model",
+    "migration",
+    "laravel"
+  ],
+  "homepage": "https://sadeem-tech.com",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Amro Elsabeihi",
+      "email": "amrosubihie@gmail.com"
+    }
+  ],
+  "require": {
+    "goldspecdigital/laravel-eloquent-uuid": "^8.0",
+    "spatie/laravel-activitylog": "^3.17"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sadeem\\Commons\\CategoryServiceProvider"
+      ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Sadeem\\Commons\\": "src",
+      "Database\\Factories\\": "database/factories",
+      "Database\\Seeders\\": "database/seeders"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

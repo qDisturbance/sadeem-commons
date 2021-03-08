@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCategoriesTable extends Migration
+{
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    $tableName = config('sadeem.category_table_name', 'categories');
+    $timestamps = config('sadeem.category_table_timestamps', false);
+
+    Schema::create($tableName, function (Blueprint $table) {
+      $table->uuid('id')->unique()->primary();
+      $table->string('name');
+      $table->boolean('is_disabled');
+      $table->char('parent_id', 36)->nullable()->comment('parent category id, if null it is a top level category');
+      $table->string('model_name')->nullable()->comment('specify a model to be categorized');
+    });
+
+    if ($timestamps) {
+      Schema::table($tableName, function (Blueprint $table) {
+        $table->timestampsTz();
+      });
+    }
+  }
+
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists(config('sadeem.category_table_name', 'categories'));
+  }
+}
