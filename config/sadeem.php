@@ -30,10 +30,8 @@ return [
     'categories' => ['api'],
   ],
 
-// future implementation, not ready for use
-
   'models' => [
-//    'city' => App\Models\Role::class,
+    'city' => Sadeem\Commons\Models\City::class,
     'country' => Sadeem\Commons\Models\Country::class,
     'category' => Sadeem\Commons\Models\Category::class,
   ],
@@ -46,8 +44,9 @@ return [
   ],
 
   'column_names' => [
+    'city_id' => 'city_id',
+    'country_id' => 'country_id',
     'model_morph_key' => 'model_uuid',
-    'country_id' => 'country_id'
   ],
 
   'table_timestamps' => [

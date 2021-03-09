@@ -76,34 +76,45 @@ if that file doesn't exist or has been removed it will use the version in the pa
 
 inside your app root `config/sadeem.php`
 
-```json
-'route_prefixes' => [
-  'cities' => '',
-  'countries' => '',
-  'categories' => '',
-],
+```php
+<?php
 
-'route_middlewares' => [
-  'cities' => ['api'],
-  'countries' => ['api'],
-  'categories' => ['api'],
-],
-
-'table_names' => [
-  'cities' => 'cities',
-  'countries' => 'countries',
-  'categories' => 'categories',
-  'model_has_categories' => 'model_has_categories',
-],
-
-'column_names' => [
-  'model_morph_key' => 'model_uuid',
-],
-
-'table_timestamps' => [
-  'cities' => false,
-  'countries' => false,
-  'categories' => false,
+return [
+  'route_prefixes' => [
+    'cities' => '',
+    'countries' => '',
+    'categories' => '',
+  ],
+  'route_middlewares' => [
+    'cities' => ['api'],
+    'countries' => ['api'],
+    'categories' => ['api'],
+  ],
+  
+  'models' => [
+    'city' => Sadeem\Commons\Models\City::class,
+    'country' => Sadeem\Commons\Models\Country::class,
+    'category' => Sadeem\Commons\Models\Category::class,
+  ],
+  
+  'table_names' => [
+    'cities' => 'cities',
+    'countries' => 'countries',
+    'categories' => 'categories',
+    'model_has_categories' => 'model_has_categories',
+  ],
+  
+  'column_names' => [
+    'city_id' => 'city_id',
+    'country_id' => 'country_id',
+    'model_morph_key' => 'model_uuid',
+  ],
+  
+  'table_timestamps' => [
+    'cities' => false,
+    'countries' => false,
+    'categories' => false,
+  ]
 ]
 ```
 
@@ -125,6 +136,7 @@ inside your app root `config/sadeem.php`
 | Name | command | Description |
 | :--- | :--- | :--- |
 | UUID | `CREATE EXTENSION "uuid-ossp";` | uuid support for primary keys|
+| PostGIS | `CREATE EXTENSION postgis;` | adds geospatial types to the db |
 | Trigram | `CREATE EXTENSION pg_trgm;` | Levenstein (string similarity) functions |
 
 ## LICENSE

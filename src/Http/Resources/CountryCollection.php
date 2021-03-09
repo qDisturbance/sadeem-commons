@@ -6,18 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CategoryCollection extends ResourceCollection
+class CountryCollection extends ResourceCollection
 {
+
   /**
    * Transform the resource collection into an array.
    *
    * @param Request $request
    * @return array
    */
-  public function toArray($request)
+  public function toArray($request): array
   {
-    $tableName = config('sadeem.table_names.categories');
-    $publicColumns = Schema::getColumnListing($tableName);
+    $tableName = config('sadeem.table_names.countries');
+    $publicColumns = Schema::getColumnListing('countries');
 
     return [
       'data' => $this->collection,
@@ -26,6 +27,7 @@ class CategoryCollection extends ResourceCollection
       ],
       'meta' => [
         'sort_by' => $publicColumns,
+        'icon_sizes' => getFlagIconSizes()
       ]
     ];
   }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CategoryCollection extends ResourceCollection
+class CityCollection extends ResourceCollection
 {
   /**
    * Transform the resource collection into an array.
@@ -16,7 +16,7 @@ class CategoryCollection extends ResourceCollection
    */
   public function toArray($request)
   {
-    $tableName = config('sadeem.table_names.categories');
+    $tableName = config('sadeem.table_names.cities');
     $publicColumns = Schema::getColumnListing($tableName);
 
     return [

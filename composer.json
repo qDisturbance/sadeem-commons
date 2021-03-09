@@ -3,6 +3,8 @@
   "description": "common modules used inside an api project",
   "keywords": [
     "api",
+    "city",
+    "country",
     "category",
     "model",
     "migration",
@@ -21,6 +23,8 @@
     "goldspecdigital/laravel-eloquent-uuid": "^8.0",
     "spatie/laravel-activitylog": "^3.17",
     "spatie/laravel-permission": "^3.18",
+    "mstaack/laravel-postgis": "^5.2",
+    "tymon/jwt-auth": "dev-develop",
     "ext-zip": "*"
   },
   "config": {

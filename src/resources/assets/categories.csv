@@ -1,4 +1,4 @@
-"id","name","is_disabled","parent_id","model_name"
+"id","name","is_disabled","parent_id"
 "bfa012d0-eaed-41e3-a0aa-77841e7ea36b","fruits",false,NULL
 "82d19fc3-4876-45ab-a7f6-01fb2b60c788","vegetables",true,NULL
 "cde492b4-dc0f-40bd-b6c6-330630135def","apples",true,"bfa012d0-eaed-41e3-a0aa-77841e7ea36b"
