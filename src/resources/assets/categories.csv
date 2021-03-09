@@ -1,7 +1,7 @@
 "id","name","is_disabled","parent_id","model_name"
-"bfa012d0-eaed-41e3-a0aa-77841e7ea36b", "fruits", false, null, "food"
-"82d19fc3-4876-45ab-a7f6-01fb2b60c788", "vegetables", false, null, "food"
-"cde492b4-dc0f-40bd-b6c6-330630135def", "apples", false, "bfa012d0-eaed-41e3-a0aa-77841e7ea36b", null
-"4dd20c3f-ac97-496b-858d-f5cc5cc3948f", "oranges", false, "bfa012d0-eaed-41e3-a0aa-77841e7ea36b", null
-"a9a23997-241f-4388-9ddc-0bc1dd9bc1a6", "lettuce", false, "82d19fc3-4876-45ab-a7f6-01fb2b60c788", null
-"23072082-d05d-4218-ac42-d25f6f1dbbcf", "cucumbers", false, "82d19fc3-4876-45ab-a7f6-01fb2b60c788", null
+"bfa012d0-eaed-41e3-a0aa-77841e7ea36b","fruits",false,NULL,"food"
+"82d19fc3-4876-45ab-a7f6-01fb2b60c788","vegetables",false,NULL,"food"
+"cde492b4-dc0f-40bd-b6c6-330630135def","apples",false,"bfa012d0-eaed-41e3-a0aa-77841e7ea36b",NULL
+"4dd20c3f-ac97-496b-858d-f5cc5cc3948f","oranges",false,"bfa012d0-eaed-41e3-a0aa-77841e7ea36b",NULL
+"a9a23997-241f-4388-9ddc-0bc1dd9bc1a6","lettuce",false,"82d19fc3-4876-45ab-a7f6-01fb2b60c788",NULL
+"23072082-d05d-4218-ac42-d25f6f1dbbcf","cucumbers",false,"82d19fc3-4876-45ab-a7f6-01fb2b60c788",NULL

@@ -11,23 +11,19 @@ class Category extends Model
 
   public function __construct(array $attributes = [])
   {
-    $tableName = config('sadeem.category_table_name', 'categories');
-
     if (! isset($this->table)) {
-      $this->setTable($tableName);
+      $this->setTable(config('sadeem.table_names.categories'));
     }
-    if (!isset($this->timestamps)) {
-      $this->timestamps = config('sadeem.category_table_timestamps');
-    }
+
+    $this->timestamps = config('sadeem.table_timestamps.categories');
 
     parent::__construct($attributes);
   }
   protected $guarded = ['id'];
   protected $fillable = [
     'name',
-    'is_disabled',
     'parent_id',
-    'model_name'
+    'is_disabled'
   ];
 
   // Model Utilities

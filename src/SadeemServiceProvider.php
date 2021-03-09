@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Sadeem\Commons\Commands\SeedCategory;
 use Sadeem\Commons\Commands\PublishConfig;
 
-class CategoryServiceProvider extends ServiceProvider
+class SadeemServiceProvider extends ServiceProvider
 {
   public function boot()
   {
@@ -26,7 +26,7 @@ class CategoryServiceProvider extends ServiceProvider
 
   public function register()
   {
-    $this->mergeConfigFrom(__DIR__ . '/../config/category.php', 'sadeem');
+    $this->mergeConfigFrom(__DIR__ . '/../config/sadeem.php', 'sadeem');
   }
 
   public function registerRoutes()
@@ -39,15 +39,15 @@ class CategoryServiceProvider extends ServiceProvider
   protected function routeConfiguration()
   {
     return [
-      'prefix' => config('sadeem.category_route_prefix'),
-      'middleware' => config('sadeem.category_route_middleware'),
+      'prefix' => config('sadeem.route_prefixes.categories'),
+      'middleware' => config('sadeem.route_middlewares.categories'),
     ];
   }
 
   protected function publishResources()
   {
     $this->publishes([
-      __DIR__ . '/../config/category.php' => config_path('sadeem.php'),
+      __DIR__ . '/../config/sadeem.php' => config_path('sadeem.php'),
     ], 'config');
 
     if (!class_exists('CreateCategoriesTable')) {
@@ -60,7 +60,7 @@ class CategoryServiceProvider extends ServiceProvider
 
     if ($this->app->runningInConsole()) {
       $this->publishes([
-        __DIR__.'/resources/assets' => public_path('sadeem_tech'),
+        __DIR__.'/resources/assets' => public_path('sadeem'),
       ], 'assets');
     }
   }

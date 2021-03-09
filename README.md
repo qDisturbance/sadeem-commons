@@ -34,16 +34,23 @@ publishes the configuration
 seeds with category samples
 `php artisan sadeem:seed-categories` 
 
+## Seeding
+
+by default, it will read from the published assets under `public/sadeem/*.csv` files which you can edit prior to seeding
+if that file doesn't exist or has been removed it will use the version in the package directory
+
 ## Configuration
 
 inside your app root `config/sadeem.php`
 
 | variable | default | description |
 | :--- | :--- | :--- |
-| category_table_name | categories | migration table name and api resource path |
-| category_table_timestamps | false | enable or disable timestamps |
+| table_names | cities | model table name |
+|  | countries | model table name |
+|  | categories | model table name |
+| table_timestamps | false | enable or disable timestamps |
 | category_route_prefix | someBoard | route prefix for the api resource |
-| category_route_middleware | ['role:superadmin'] | middleware for the api resource |
+| category_route_middleware | ['api'] | middleware for the api resource |
 
 ## Usage
 
@@ -54,7 +61,7 @@ the category model
 | id | uuid | identifier |
 | name | string | category name |
 | is_disabled | boolean | status |
-| parent_id | uuid | null on top level categories, has value of a higher level category on sub levels|
+| parent_id | uuid | null on top level categories, has value of a higher level category on lower levels|
 | model_name | string | model to associate category with (only for top level categories), null on lower level categories |
 
 ### example 

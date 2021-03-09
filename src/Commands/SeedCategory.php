@@ -15,6 +15,7 @@ class SeedCategory extends Command
 
   public function handle()
   {
+    $tableTimestamps = config('sadeem.table_timestamps');
 
     $csvFile = File::exists(public_path('sadeem_tech/categories.csv'));
 
@@ -29,8 +30,8 @@ class SeedCategory extends Command
     for ($i = 1; $i < count($csvFile); $i++) {
       $data = str_getcsv($csvFile[$i]);
 
-      if ($data[3] == "null") $data[3] = null;
-      if ($data[4] == "null") $data[4] = null;
+      if ($data[3] == 'NULL') $data[3] = NULL;
+      if ($data[4] == 'NULL') $data[4] = NULL;
 
       $category = Category::make([
           'id' => $data[0],
@@ -39,7 +40,7 @@ class SeedCategory extends Command
           'parent_id' => $data[3],
           'model_name' => $data[4],
         ]);
-      $category->timestamps = config('category_table_timestamps', false);
+      $category->timestamps = $tableTimestamps['categories'];
       $category->save();
     }
 

@@ -1,15 +1,20 @@
 <?php
 
-
 namespace Sadeem\Commons\Traits;
 
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Sadeem\Commons\Models\Category;
 
 trait HasCategories
 {
-    public function categories()
-    {
-        return $this->hasMany(Category::class);
-    }
+  public function categories(): BelongsToMany
+  {
+    return $this->morphToMany(
+      config('sadeem.models.category'),
+      'model',
+      config('sadeem.table_names.model_has_categories'),
+      config('sadeem.column_names.model_morph_key'),
+      'category_id'
+    );
+  }
 }

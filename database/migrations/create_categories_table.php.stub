@@ -13,22 +13,43 @@ class CreateCategoriesTable extends Migration
    */
   public function up()
   {
-    $tableName = config('sadeem.category_table_name', 'categories');
-    $timestamps = config('sadeem.category_table_timestamps', false);
+    $tableNames = config('sadeem.table_names');
+    $columnNames = config('sadeem.column_names');
+    $timestamps = config('sadeem.table_timestamps');
 
-    Schema::create($tableName, function (Blueprint $table) {
+    if (empty($tableNames)) {
+      throw new Exception('Error: config/sadeem.php not loaded. Run [php artisan config:clear] and try again.');
+    }
+
+    Schema::create($tableNames['categories'], function (Blueprint $table) {
       $table->uuid('id')->unique()->primary();
       $table->string('name');
       $table->boolean('is_disabled');
       $table->char('parent_id', 36)->nullable()->comment('parent category id, if null it is a top level category');
-      $table->string('model_name')->nullable()->comment('specify a model to be categorized');
     });
 
-    if ($timestamps) {
-      Schema::table($tableName, function (Blueprint $table) {
+    if ($timestamps['categories']) {
+      Schema::table($tableNames['categories'], function (Blueprint $table) {
         $table->timestampsTz();
       });
     }
+
+    Schema::create($tableNames['model_has_categories'], function (Blueprint $table) use ($tableNames, $columnNames) {
+      $table->uuid('category_id');
+
+      $table->string('model_type');
+      $table->uuid($columnNames['model_morph_key']);
+      $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_categories_model_id_model_type_index');
+
+      $table->foreign('category_id')
+        ->references('id')
+        ->on($tableNames['categories'])
+        ->onDelete('cascade');
+
+      $table->primary(['category_id', $columnNames['model_morph_key'], 'model_type'],
+        'model_has_categories_category_model_type_primary');
+    });
+
   }
 
   /**
@@ -38,6 +59,7 @@ class CreateCategoriesTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists(config('sadeem.category_table_name', 'categories'));
+    Schema::dropIfExists(config('sadeem.table_names.model_has_categories'));
+    Schema::dropIfExists(config('sadeem.table_names.categories'));
   }
 }
