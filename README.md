@@ -52,9 +52,9 @@ inside your app root `config/sadeem.php`
 | category_route_prefix | someBoard | route prefix for the api resource |
 | category_route_middleware | ['api'] | middleware for the api resource |
 
-## Usage
+## Models
 
-the category model 
+### category
 
 | column | type | description |
 | :--- | :--- | :--- |
@@ -62,18 +62,25 @@ the category model
 | name | string | category name |
 | is_disabled | boolean | status |
 | parent_id | uuid | null on top level categories, has value of a higher level category on lower levels|
-| model_name | string | model to associate category with (only for top level categories), null on lower level categories |
 
-### example 
+### model_has_category
 
-| id | name | is_disabled | parent_id | model_name |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | ***fruits*** | false | null | food | 
-| 2 | ***vegetables*** | false | null | food |
-| 3 | apples | false | 1 | null |
-| 4 | oranges | false | 1 | null |
-| 5 | lettuce | false | 2 | null |
-| 6 | cucumbers | false | 2 | null |
+| column | type | description |
+| :--- | :--- | :--- |
+| model_uuid | uuid | identifier |
+| category_id | string | category name |
+| model_type | boolean | status |
+
+### Data Samples 
+
+| id | name | is_disabled | parent_id |
+| :--- | :--- | :--- | :--- |
+| 1 | ***fruits*** | false | null |
+| 2 | ***vegetables*** | false | null |
+| 3 | apples | false | 1 |
+| 4 | oranges | false | 1 |
+| 5 | lettuce | false | 2 |
+| 6 | cucumbers | false | 2 |
 
 ### api resource routes available:
 
@@ -87,7 +94,7 @@ index: categories model can use the `searchAndSort(request)` function to handle 
 
 ### Trait
 
-`use HasCategories;` inside a class to define a `hasMany` relation using `categories()`
+`use HasCategories;` inside a class to define a `morphToMany` relation using `categories()`
 
 ## Postgres required extensions
 
