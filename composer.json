@@ -20,7 +20,8 @@
   "require": {
     "goldspecdigital/laravel-eloquent-uuid": "^8.0",
     "spatie/laravel-activitylog": "^3.17",
-    "spatie/laravel-permission": "^3.18"
+    "spatie/laravel-permission": "^3.18",
+    "ext-zip": "*"
   },
   "config": {
     "sort-packages": true

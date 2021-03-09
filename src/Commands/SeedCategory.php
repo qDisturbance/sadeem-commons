@@ -15,14 +15,13 @@ class SeedCategory extends Command
 
   public function handle()
   {
-    $csvFile = File::exists(public_path('sadeem_tech/categories.csv'));
+    $csvFile = File::exists(storage_path("app/public/sadeem/categories.csv"));
 
     // if no csv sample data published use the one in the package
-    if(!$csvFile)
-    {
-      $csvFile = file(__DIR__.'/../resources/assets/categories.csv') ;
+    if (!$csvFile) {
+      $csvFile = file(__DIR__ . '/../resources/assets/categories.csv');
     } else {
-      $csvFile = file(public_path('sadeem_tech/categories.csv'));
+      $csvFile = file(storage_path("app/public/sadeem/categories.csv"));
     }
 
     for ($i = 1; $i < count($csvFile); $i++) {
@@ -30,13 +29,12 @@ class SeedCategory extends Command
 
       if ($data[3] == 'NULL') $data[3] = NULL;
 
-      $category = Category::make([
-          'id' => $data[0],
-          'name' => $data[1],
-          'is_disabled' => $data[2],
-          'parent_id' => $data[3]
-        ]);
-      $category->save();
+      Category::create([
+        'id' => $data[0],
+        'name' => $data[1],
+        'is_disabled' => $data[2],
+        'parent_id' => $data[3]
+      ]);
     }
 
     $this->info("Sadeem/Commons/Category samples have been seeded");

@@ -7,12 +7,12 @@ return [
   | Category Configurations
   |--------------------------------------------------------------------------
   |
-  | Used for the category model in the database migration and api resource
-  | route included by default the api resource route prefix
+  | Used for database models migration and api resource
+  | included by default the api resource route prefix
   |
-  | accessible through localhost:8000/someBoard/categories
-  | middleware can be configured and should implement a
-  | set role or a can-edit type permissions
+  | accessible by localhost:8000/[prefix]/[model]
+  | middleware  should implement a
+  | set of permissions to a role
   |
   | do not change the name and timestamps
   | after initial migration
@@ -31,12 +31,12 @@ return [
   ],
 
 // future implementation, not ready for use
-//
-//  'models' => [
+
+  'models' => [
 //    'city' => App\Models\Role::class,
-//    'country' => App\Models\Role::class,
-//    'category' => Sadeem\Commons\Models\Category::class,
-//  ],
+    'country' => Sadeem\Commons\Models\Country::class,
+    'category' => Sadeem\Commons\Models\Category::class,
+  ],
 
   'table_names' => [
     'cities' => 'cities',
@@ -47,6 +47,7 @@ return [
 
   'column_names' => [
     'model_morph_key' => 'model_uuid',
+    'country_id' => 'country_id'
   ],
 
   'table_timestamps' => [

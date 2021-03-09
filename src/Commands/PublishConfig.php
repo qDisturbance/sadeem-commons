@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\File;
 
 class PublishConfig extends Command
 {
-  protected $signature = 'sadeem:publish';
+  protected $signature = 'sadeem:config';
 
-  protected $description = 'Seed the commons ';
+  protected $description = 'publish or overwrite configuration';
 
   public function handle()
   {
@@ -29,8 +29,6 @@ class PublishConfig extends Command
         $this->info('Existing configuration was not overwritten');
       }
     }
-
-    $this->info('Installed Sadeem Commons');
   }
 
   private function configExists($fileName)
@@ -49,7 +47,7 @@ class PublishConfig extends Command
   private function publishConfiguration($forcePublish = false)
   {
     $params = [
-      '--provider' => "Sadeem\Commons\CategoryServiceProvider",
+      '--provider' => "Sadeem\Commons\SadeemServiceProvider",
       '--tag' => "config"
     ];
 

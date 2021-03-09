@@ -2,18 +2,13 @@
 
 use Illuminate\Http\Response;
 
-function globalPaginationSize(): int
-{
-  return (int)env('PAGINATION_SIZE', 12);
-}
-
 /**
  * Checks for strings in the include param
  *
  * @param $requestInclude
  * @param $modelRelationship
  *
- * @returns bool
+ * @return bool
  */
 function getIncludeCondition($requestInclude, $modelRelationship): bool
 {
@@ -62,7 +57,7 @@ function isSetArrayInput($requestArray): bool
  */
 function isSetNotEmpty($value): bool
 {
-  return (isset($value)&& $value != '');
+  return (isset($value) && $value != '');
 }
 
 /**

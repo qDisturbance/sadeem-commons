@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Sadeem\Commons\Commands\SeedCategory;
 use Sadeem\Commons\Commands\PublishConfig;
+use Sadeem\Commons\Commands\SeedCountry;
 
 class SadeemServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,8 @@ class SadeemServiceProvider extends ServiceProvider
 
       $this->commands([
         PublishConfig::class,
-        SeedCategory::class
+        SeedCategory::class,
+        SeedCountry::class
       ]);
 
       $this->publishResources();
@@ -55,6 +57,10 @@ class SadeemServiceProvider extends ServiceProvider
     ], 'helpers');
 
     $this->publishes([
+      __DIR__ . '/Helpers/Constants.php' => app_path('Helpers/Constants.php'),
+    ], 'helpers');
+
+    $this->publishes([
       __DIR__ . '/../config/sadeem.php' => config_path('sadeem.php'),
     ], 'config');
 
@@ -65,10 +71,17 @@ class SadeemServiceProvider extends ServiceProvider
         __DIR__ . '/../database/migrations/create_categories_table.php.stub' => database_path("/migrations/{$timestamp}_create_categories_table.php"),
       ], 'migrations');
     }
+    if (!class_exists('CreateCountriesTable')) {
+      $timestamp = date('Y_m_d_His', time());
+
+      $this->publishes([
+        __DIR__ . '/../database/migrations/create_countries_table.php.stub' => database_path("/migrations/{$timestamp}_create_countries_table.php"),
+      ], 'migrations');
+    }
 
     if ($this->app->runningInConsole()) {
       $this->publishes([
-        __DIR__.'/resources/assets' => public_path('sadeem'),
+        __DIR__.'/resources/assets' => storage_path("app/public/sadeem"),
       ], 'assets');
     }
   }

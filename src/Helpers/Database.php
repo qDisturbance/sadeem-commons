@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -36,9 +37,41 @@ function isDisabledSwitch($modelInstance): void
  * @param $q
  * @return mixed
  */
-function similarityByColumn($modelInstance, $column, $q)
+function similarityByColumn($modelInstance, $column, $q): mixed
 {
-  return $modelInstance->selectRaw("*, similarity({$column}, ?) as difference", ["{$q}"])
-    ->whereRaw("similarity({$column}, ?) > ?", ["{$q}", 0.1])
+  $difference = "similarity({$column}, ?)";
+
+  return $modelInstance
+    ->selectRaw("*, {$difference} as difference", ["{$q}"])
+    ->whereRaw("{$difference} > ?", ["{$q}", 0.1])
     ->orderBy('difference', 'desc');
+}
+
+/**
+ * Builds a query using multiple sort param values
+ * as in ?sort=parent_id, -is_disabled
+ *
+ * @param $sorts
+ * @return Builder
+ */
+function orderQuery($modelInstance, $sorts): Builder
+{
+  $query = $modelInstance::query();
+
+  foreach ($sorts as $sortColumn) {
+
+    // remove empty spaces
+    $sortColumn = trim($sortColumn);
+
+    // decide the order direction
+    $sortDirection = str_starts_with($sortColumn, '-') ? 'desc' : 'asc';
+
+    // trim the order direction
+    $sortColumn = ltrim($sortColumn, '-');
+
+    $query->orderBy($sortColumn, $sortDirection);
+  }
+
+  return $query;
+
 }

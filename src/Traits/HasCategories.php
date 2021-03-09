@@ -3,7 +3,6 @@
 namespace Sadeem\Commons\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Sadeem\Commons\Models\Category;
 
 trait HasCategories
 {

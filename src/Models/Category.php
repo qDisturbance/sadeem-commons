@@ -2,7 +2,6 @@
 
 namespace Sadeem\Commons\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
@@ -31,11 +30,10 @@ class Category extends Model
    * Searches and sort based on the request parameters
    *
    * @param $request
-   * @return Category|mixed
    */
   public function searchAndSort($request)
   {
-    // Params list
+
     $q = $request->input('q', '');
     $sorts = explode(',', $request->input('sort', ''));
 
@@ -46,46 +44,18 @@ class Category extends Model
       ->when(empty($q) && !empty($sorts[0]), function () use ($sorts) {
         return $this->orderQuery($sorts);
       })
-      ->when(empty($q) && empty($sorts), function () {
+      ->when(empty($q) && empty($sorts[0]), function () {
         return $this;
       });
   }
 
-  /**
-   * @param $column
-   * @param $q
-   * @return mixed
-   */
   public function similarity($column, $q)
   {
     return similarityByColumn($this, $column, $q);
   }
 
-  /**
-   * Builds a query using multiple sort param values
-   * as in ?sort=parent_id, -is_disabled
-   *
-   * @param $sorts
-   * @return Builder
-   */
-  public function orderQuery($sorts): Builder
+  public function orderQuery($sorts)
   {
-    $query = $this::query();
-
-    foreach ($sorts as $sortColumn) {
-
-      // remove empty spaces
-      $sortColumn = trim($sortColumn);
-
-      // decide the order direction
-      $sortDirection = str_starts_with($sortColumn, '-') ? 'desc' : 'asc';
-
-      // trim the order direction
-      $sortColumn = ltrim($sortColumn, '-');
-
-      $query->orderBy($sortColumn, $sortDirection);
-    }
-
-    return $query;
+    return orderQuery($this, $sorts);
   }
 }

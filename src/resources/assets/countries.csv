@@ -1,0 +1,252 @@
+"id","iso","iso3","num_code","phone_code","name","en_name","ar_name"
+1,"AF","AFG",4,93,"AFGHANISTAN","Afghanistan","أفغانستان"
+2,"AL","ALB",8,355,"ALBANIA","Albania","ألبانيا"
+3,"DZ","DZA",12,213,"ALGERIA","Algeria","الجزائر"
+4,"AS","ASM",16,1684,"AMERICAN SAMOA","American Samoa",NULL
+5,"AD","AND",20,376,"ANDORRA","Andorra","أندورا"
+6,"AO","AGO",24,244,"ANGOLA","Angola","أنغولا"
+7,"AI","AIA",660,1264,"ANGUILLA","Anguilla",NULL
+8,"AQ","ATA",10,0,"ANTARCTICA","Antarctica",NULL
+9,"AG","ATG",28,1268,"ANTIGUA AND BARBUDA","Antigua and Barbuda","أنتيغوا وباربودا"
+10,"AR","ARG",32,54,"ARGENTINA","Argentina","الأرجنتين"
+11,"AM","ARM",51,374,"ARMENIA","Armenia","أرمينيا"
+12,"AW","ABW",533,297,"ARUBA","Aruba",NULL
+13,"AU","AUS",36,61,"AUSTRALIA","Australia","أستراليا"
+14,"AT","AUT",40,43,"AUSTRIA","Austria","النمسا"
+15,"AZ","AZE",31,994,"AZERBAIJAN","Azerbaijan","أذربيجان"
+16,"BS","BHS",44,1242,"BAHAMAS","Bahamas","باهاماس"
+17,"BH","BHR",48,973,"BAHRAIN","Bahrain","البحرين"
+18,"BD","BGD",50,880,"BANGLADESH","Bangladesh","بنغلاديش"
+19,"BB","BRB",52,1246,"BARBADOS","Barbados","باربادوس"
+20,"BY","BLR",112,375,"BELARUS","Belarus","بيلاروس"
+21,"BE","BEL",56,32,"BELGIUM","Belgium","بلجيكا"
+22,"BZ","BLZ",84,501,"BELIZE","Belize","بليز"
+23,"BJ","BEN",204,229,"BENIN","Benin","بنين"
+24,"BM","BMU",60,1441,"BERMUDA","Bermuda",NULL
+25,"BT","BTN",64,975,"BHUTAN","Bhutan","بوتان"
+26,"BO","BOL",68,591,"BOLIVIA","Bolivia","بوليفيا"
+27,"BA","BIH",70,387,"BOSNIA AND HERZEGOVINA","Bosnia and Herzegovina","البوسنة والهرسك"
+28,"BW","BWA",72,267,"BOTSWANA","Botswana","بوتسوانا"
+29,"BV","BVT",74,0,"BOUVET ISLAND","Bouvet Island",NULL
+30,"BR","BRA",76,55,"BRAZIL","Brazil","البرازيل"
+31,"IO","IOT",86,246,"BRITISH INDIAN OCEAN TERRITORY","British Indian Ocean Territory",NULL
+32,"BN","BRN",96,673,"BRUNEI DARUSSALAM","Brunei Darussalam","بروناي"
+33,"BG","BGR",100,359,"BULGARIA","Bulgaria","بلغاريا"
+34,"BF","BFA",854,226,"BURKINA FASO","Burkina Faso","بوركينا فاسو"
+35,"BI","BDI",108,257,"BURUNDI","Burundi","بوروندي"
+36,"KH","KHM",116,855,"CAMBODIA","Cambodia","كمبوديا"
+37,"CM","CMR",120,237,"CAMEROON","Cameroon","الكاميرون"
+38,"CA","CAN",124,1,"CANADA","Canada","كندا"
+39,"CV","CPV",132,238,"CAPE VERDE","Cape Verde","الرأس الأخضر"
+40,"KY","CYM",136,1345,"CAYMAN ISLANDS","Cayman Islands",NULL
+41,"CF","CAF",140,236,"CENTRAL AFRICAN REPUBLIC","Central African Republic","جمهورية أفريقيا الوسطى"
+42,"TD","TCD",148,235,"CHAD","Chad","تشاد"
+43,"CL","CHL",152,56,"CHILE","Chile","تشيلي"
+44,"CN","CHN",156,86,"CHINA","China","الصين"
+45,"CX","CXR",162,61,"CHRISTMAS ISLAND","Christmas Island",NULL
+46,"CC",NULL,NULL,672,"COCOS (KEELING) ISLANDS","Cocos (Keeling) Islands",NULL
+47,"CO","COL",170,57,"COLOMBIA","Colombia","كولومبيا"
+48,"KM","COM",174,269,"COMOROS","Comoros","جزر القمر"
+49,"CG","COG",178,242,"CONGO","Congo","جمهورية الكونغو"
+50,"CD","COD",180,242,"CONGO, THE DEMOCRATIC REPUBLIC OF THE","Congo, the Democratic Republic of the","جمهورية الكونغو الديمقراطية"
+51,"CK","COK",184,682,"COOK ISLANDS","Cook Islands",NULL
+52,"CR","CRI",188,506,"COSTA RICA","Costa Rica","كوستاريكا"
+53,"CI","CIV",384,225,"COTE D'IVOIRE","Cote D'Ivoire","ساحل العاج"
+54,"HR","HRV",191,385,"CROATIA","Croatia","كرواتيا"
+55,"CU","CUB",192,53,"CUBA","Cuba","كوبا"
+56,"CY","CYP",196,357,"CYPRUS","Cyprus","قبرص"
+57,"CZ","CZE",203,420,"CZECHIA","Czech Republic","جمهورية التشيك"
+58,"DK","DNK",208,45,"DENMARK","Denmark","الدنمارك"
+59,"DJ","DJI",262,253,"DJIBOUTI","Djibouti","جيبوتي"
+60,"DM","DMA",212,1767,"DOMINICA","Dominica","دومينيكا"
+61,"DO","DOM",214,1,"DOMINICAN REPUBLIC","Dominican Republic","جمهورية الدومينيكان"
+62,"EC","ECU",218,593,"ECUADOR","Ecuador","الإكوادور"
+63,"EG","EGY",818,20,"EGYPT","Egypt","مصر"
+64,"SV","SLV",222,503,"EL SALVADOR","El Salvador","السلفادور"
+65,"GQ","GNQ",226,240,"EQUATORIAL GUINEA","Equatorial Guinea","غينيا الاستوائية"
+66,"ER","ERI",232,291,"ERITREA","Eritrea","إريتريا"
+67,"EE","EST",233,372,"ESTONIA","Estonia","إستونيا"
+68,"ET","ETH",231,251,"ETHIOPIA","Ethiopia","إثيوبيا"
+69,"FK","FLK",238,500,"FALKLAND ISLANDS (MALVINAS)","Falkland Islands (Malvinas)",NULL
+70,"FO","FRO",234,298,"FAROE ISLANDS","Faroe Islands",NULL
+71,"FJ","FJI",242,679,"FIJI","Fiji","فيجي"
+72,"FI","FIN",246,358,"FINLAND","Finland","فنلندا"
+73,"FR","FRA",250,33,"FRANCE","France","فرنسا"
+74,"GF","GUF",254,594,"FRENCH GUIANA","French Guiana",NULL
+75,"PF","PYF",258,689,"FRENCH POLYNESIA","French Polynesia",NULL
+76,"TF","ATF",260,0,"FRENCH SOUTHERN TERRITORIES","French Southern Territories",NULL
+77,"GA","GAB",266,241,"GABON","Gabon","الغابون"
+78,"GM","GMB",270,220,"GAMBIA","Gambia","غامبيا"
+79,"GE","GEO",268,995,"GEORGIA","Georgia","جورجيا"
+80,"DE","DEU",276,49,"GERMANY","Germany","ألمانيا"
+81,"GH","GHA",288,233,"GHANA","Ghana","غانا"
+82,"GI","GIB",292,350,"GIBRALTAR","Gibraltar",NULL
+83,"GR","GRC",300,30,"GREECE","Greece","اليونان"
+84,"GL","GRL",304,299,"GREENLAND","Greenland",NULL
+85,"GD","GRD",308,1473,"GRENADA","Grenada","غرينادا"
+86,"GP","GLP",312,590,"GUADELOUPE","Guadeloupe",NULL
+87,"GU","GUM",316,1671,"GUAM","Guam",NULL
+88,"GT","GTM",320,502,"GUATEMALA","Guatemala","غواتيمالا"
+89,"GN","GIN",324,224,"GUINEA","Guinea","غينيا"
+90,"GW","GNB",624,245,"GUINEA-BISSAU","Guinea-Bissau","غينيا بيساو"
+91,"GY","GUY",328,592,"GUYANA","Guyana","غيانا"
+92,"HT","HTI",332,509,"HAITI","Haiti","هايتي"
+93,"HM","HMD",334,0,"HEARD ISLAND AND MCDONALD ISLANDS","Heard Island and Mcdonald Islands",NULL
+94,"VA","VAT",336,39,"HOLY SEE (VATICAN CITY STATE)","Holy See (Vatican City State)",NULL
+95,"HN","HND",340,504,"HONDURAS","Honduras","هندوراس"
+96,"HK","HKG",344,852,"HONG KONG","Hong Kong",NULL
+97,"HU","HUN",348,36,"HUNGARY","Hungary","المجر"
+98,"IS","ISL",352,354,"ICELAND","Iceland","آيسلندا"
+99,"IN","IND",356,91,"INDIA","India","الهند"
+100,"ID","IDN",360,62,"INDONESIA","Indonesia","إندونيسيا"
+101,"IR","IRN",364,98,"IRAN, ISLAMIC REPUBLIC OF","Iran, Islamic Republic of","إيران"
+102,"IQ","IRQ",368,964,"IRAQ","Iraq","العراق"
+103,"IE","IRL",372,353,"IRELAND","Ireland","أيرلندا"
+104,"IL","ISR",376,972,"ISRAEL","Israel","إسرائيل"
+105,"IT","ITA",380,39,"ITALY","Italy","إيطاليا"
+106,"JM","JAM",388,1876,"JAMAICA","Jamaica","جامايكا"
+107,"JP","JPN",392,81,"JAPAN","Japan","اليابان"
+108,"JO","JOR",400,962,"JORDAN","Jordan","الأردن"
+109,"KZ","KAZ",398,7,"KAZAKHSTAN","Kazakhstan","كازاخستان"
+110,"KE","KEN",404,254,"KENYA","Kenya","كينيا"
+111,"KI","KIR",296,686,"KIRIBATI","Kiribati","كيريباتي"
+112,"KP","PRK",408,850,"KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF","Korea, Democratic People's Republic of","كوريا الشمالية"
+113,"KR","KOR",410,82,"KOREA, REPUBLIC OF","Korea, Republic of","كوريا الجنوبية"
+114,"KW","KWT",414,965,"KUWAIT","Kuwait","الكويت"
+115,"KG","KGZ",417,996,"KYRGYZSTAN","Kyrgyzstan","قيرغيزستان"
+116,"LA","LAO",418,856,"LAO PEOPLE'S DEMOCRATIC REPUBLIC","Lao People's Democratic Republic","لاوس"
+117,"LV","LVA",428,371,"LATVIA","Latvia","لاتفيا"
+118,"LB","LBN",422,961,"LEBANON","Lebanon","لبنان"
+119,"LS","LSO",426,266,"LESOTHO","Lesotho","ليسوتو"
+120,"LR","LBR",430,231,"LIBERIA","Liberia","ليبيريا"
+121,"LY","LBY",434,218,"LIBYA","Libya","ليبيا"
+122,"LI","LIE",438,423,"LIECHTENSTEIN","Liechtenstein","ليختنشتاين"
+123,"LT","LTU",440,370,"LITHUANIA","Lithuania","ليتوانيا"
+124,"LU","LUX",442,352,"LUXEMBOURG","Luxembourg","لوكسمبورغ"
+125,"MO","MAC",446,853,"MACAO","Macao",NULL
+126,"MK","MKD",807,389,"NORTH MACEDONIA","North Macedonia","مقدونيا"
+127,"MG","MDG",450,261,"MADAGASCAR","Madagascar","مدغشقر"
+128,"MW","MWI",454,265,"MALAWI","Malawi","مالاوي"
+129,"MY","MYS",458,60,"MALAYSIA","Malaysia","ماليزيا"
+130,"MV","MDV",462,960,"MALDIVES","Maldives","جزر المالديف"
+131,"ML","MLI",466,223,"MALI","Mali","مالي"
+132,"MT","MLT",470,356,"MALTA","Malta","مالطا"
+133,"MH","MHL",584,692,"MARSHALL ISLANDS","Marshall Islands","جزر مارشال"
+134,"MQ","MTQ",474,596,"MARTINIQUE","Martinique",NULL
+135,"MR","MRT",478,222,"MAURITANIA","Mauritania","موريتانيا"
+136,"MU","MUS",480,230,"MAURITIUS","Mauritius","موريشيوس"
+137,"YT","MYT",175,269,"MAYOTTE","Mayotte",NULL
+138,"MX","MEX",484,52,"MEXICO","Mexico","المكسيك"
+139,"FM","FSM",583,691,"MICRONESIA, FEDERATED STATES OF","Micronesia, Federated States of","ولايات ميكرونيسيا المتحدة"
+140,"MD","MDA",498,373,"MOLDOVA, REPUBLIC OF","Moldova, Republic of","مولدوفا"
+141,"MC","MCO",492,377,"MONACO","Monaco","موناكو"
+142,"MN","MNG",496,976,"MONGOLIA","Mongolia","منغوليا"
+143,"MS","MSR",500,1664,"MONTSERRAT","Montserrat",NULL
+144,"MA","MAR",504,212,"MOROCCO","Morocco","المغرب"
+145,"MZ","MOZ",508,258,"MOZAMBIQUE","Mozambique","موزمبيق"
+146,"MM","MMR",104,95,"MYANMAR","Myanmar","ميانمار"
+147,"NA","NAM",516,264,"NAMIBIA","Namibia","ناميبيا"
+148,"NR","NRU",520,674,"NAURU","Nauru","ناورو"
+149,"NP","NPL",524,977,"NEPAL","Nepal","نيبال"
+150,"NL","NLD",528,31,"NETHERLANDS","Netherlands","هولندا"
+151,"AN","ANT",530,599,"NETHERLANDS ANTILLES","Netherlands Antilles",NULL
+152,"NC","NCL",540,687,"NEW CALEDONIA","New Caledonia",NULL
+153,"NZ","NZL",554,64,"NEW ZEALAND","New Zealand","نيوزيلندا"
+154,"NI","NIC",558,505,"NICARAGUA","Nicaragua","نيكاراغوا"
+155,"NE","NER",562,227,"NIGER","Niger","النيجر"
+156,"NG","NGA",566,234,"NIGERIA","Nigeria","نيجيريا"
+157,"NU","NIU",570,683,"NIUE","Niue",NULL
+158,"NF","NFK",574,672,"NORFOLK ISLAND","Norfolk Island",NULL
+159,"MP","MNP",580,1670,"NORTHERN MARIANA ISLANDS","Northern Mariana Islands",NULL
+160,"NO","NOR",578,47,"NORWAY","Norway","النرويج"
+161,"OM","OMN",512,968,"OMAN","Oman","عمان"
+162,"PK","PAK",586,92,"PAKISTAN","Pakistan","باكستان"
+163,"PW","PLW",585,680,"PALAU","Palau","بالاو"
+164,"PS","PSE",257,970,"PALESTINE","Palestine","فلسطين"
+165,"PA","PAN",591,507,"PANAMA","Panama","بنما"
+166,"PG","PNG",598,675,"PAPUA NEW GUINEA","Papua New Guinea","بابوا غينيا الجديدة"
+167,"PY","PRY",600,595,"PARAGUAY","Paraguay","باراغواي"
+168,"PE","PER",604,51,"PERU","Peru","بيرو"
+169,"PH","PHL",608,63,"PHILIPPINES","Philippines","الفلبين"
+170,"PN","PCN",612,0,"PITCAIRN","Pitcairn",NULL
+171,"PL","POL",616,48,"POLAND","Poland","بولندا"
+172,"PT","PRT",620,351,"PORTUGAL","Portugal","البرتغال"
+173,"PR","PRI",630,1787,"PUERTO RICO","Puerto Rico",NULL
+174,"QA","QAT",634,974,"QATAR","Qatar","قطر"
+175,"RE","REU",638,262,"REUNION","Reunion",NULL
+176,"RO","ROU",642,40,"ROMANIA","Romania","رومانيا"
+177,"RU","RUS",643,7,"RUSSIAN FEDERATION","Russian Federation","روسيا"
+178,"RW","RWA",646,250,"RWANDA","Rwanda","رواندا"
+179,"SH","SHN",654,290,"SAINT HELENA","Saint Helena",NULL
+180,"KN","KNA",659,1869,"SAINT KITTS AND NEVIS","Saint Kitts and Nevis","سانت كيتس ونيفيس"
+181,"LC","LCA",662,1758,"SAINT LUCIA","Saint Lucia","سانت لوسيا"
+182,"PM","SPM",666,508,"SAINT PIERRE AND MIQUELON","Saint Pierre and Miquelon",NULL
+183,"VC","VCT",670,1784,"SAINT VINCENT AND THE GRENADINES","Saint Vincent and the Grenadines","سانت فينسنت والغرينادين"
+184,"WS","WSM",882,684,"SAMOA","Samoa","ساموا"
+185,"SM","SMR",674,378,"SAN MARINO","San Marino","سان مارينو"
+186,"ST","STP",678,239,"SAO TOME AND PRINCIPE","Sao Tome and Principe","ساو تومي وبرينسيب"
+187,"SA","SAU",682,966,"SAUDI ARABIA","Saudi Arabia","السعودية"
+188,"SN","SEN",686,221,"SENEGAL","Senegal","السنغال"
+189,"RS","SRB",688,381,"SERBIA","Serbia","صربيا"
+190,"SC","SYC",690,248,"SEYCHELLES","Seychelles","سيشل"
+191,"SL","SLE",694,232,"SIERRA LEONE","Sierra Leone","سيراليون"
+192,"SG","SGP",702,65,"SINGAPORE","Singapore","سنغافورة"
+193,"SK","SVK",703,421,"SLOVAKIA","Slovakia","سلوفاكيا"
+194,"SI","SVN",705,386,"SLOVENIA","Slovenia","سلوفينيا"
+195,"SB","SLB",90,677,"SOLOMON ISLANDS","Solomon Islands","جزر سليمان"
+196,"SO","SOM",706,252,"SOMALIA","Somalia","الصومال"
+197,"ZA","ZAF",710,27,"SOUTH AFRICA","South Africa","جنوب أفريقيا"
+198,"GS","SGS",239,0,"SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS","South Georgia and the South Sandwich Islands",NULL
+199,"ES","ESP",724,34,"SPAIN","Spain","إسبانيا"
+200,"LK","LKA",144,94,"SRI LANKA","Sri Lanka","سريلانكا"
+201,"SD","SDN",736,249,"SUDAN","Sudan","السودان"
+202,"SR","SUR",740,597,"SURINAME","Suriname","سورينام"
+203,"SJ","SJM",744,47,"SVALBARD AND JAN MAYEN","Svalbard and Jan Mayen",NULL
+204,"SZ","SWZ",748,268,"SWAZILAND","Swaziland","إسواتيني"
+205,"SE","SWE",752,46,"SWEDEN","Sweden","السويد"
+206,"CH","CHE",756,41,"SWITZERLAND","Switzerland","سويسرا"
+207,"SY","SYR",760,963,"SYRIAN ARAB REPUBLIC","Syrian Arab Republic","سوريا"
+208,"TW","TWN",158,886,"TAIWAN, PROVINCE OF CHINA","Taiwan, Province of China",NULL
+209,"TJ","TJK",762,992,"TAJIKISTAN","Tajikistan","طاجيكستان"
+210,"TZ","TZA",834,255,"TANZANIA, UNITED REPUBLIC OF","Tanzania, United Republic of","تنزانيا"
+211,"TH","THA",764,66,"THAILAND","Thailand","تايلاند"
+212,"TL","TLS",626,670,"TIMOR-LESTE","Timor-Leste","تيمور الشرقية"
+213,"TG","TGO",768,228,"TOGO","Togo","توغو"
+214,"TK","TKL",772,690,"TOKELAU","Tokelau",NULL
+215,"TO","TON",776,676,"TONGA","Tonga","تونغا"
+216,"TT","TTO",780,1868,"TRINIDAD AND TOBAGO","Trinidad and Tobago","ترينيداد وتوباغو"
+217,"TN","TUN",788,216,"TUNISIA","Tunisia","تونس"
+218,"TR","TUR",792,90,"TURKEY","Turkey","تركيا"
+219,"TM","TKM",795,993,"TURKMENISTAN","Turkmenistan","تركمانستان"
+220,"TC","TCA",796,1649,"TURKS AND CAICOS ISLANDS","Turks and Caicos Islands",NULL
+221,"TV","TUV",798,688,"TUVALU","Tuvalu","توفالو"
+222,"UG","UGA",800,256,"UGANDA","Uganda","أوغندا"
+223,"UA","UKR",804,380,"UKRAINE","Ukraine","أوكرانيا"
+224,"AE","ARE",784,971,"UNITED ARAB EMIRATES","United Arab Emirates","الإمارات العربية المتحدة"
+225,"GB","GBR",826,44,"UNITED KINGDOM","United Kingdom","المملكة المتحدة"
+226,"US","USA",840,1,"UNITED STATES","United States","الولايات المتحدة"
+227,"UM","UMI",581,1,"UNITED STATES MINOR OUTLYING ISLANDS","United States Minor Outlying Islands",NULL
+228,"UY","URY",858,598,"URUGUAY","Uruguay","الأوروغواي"
+229,"UZ","UZB",860,998,"UZBEKISTAN","Uzbekistan","أوزبكستان"
+230,"VU","VUT",548,678,"VANUATU","Vanuatu","فانواتو"
+231,"VE","VEN",862,58,"VENEZUELA","Venezuela","فنزويلا"
+232,"VN","VNM",704,84,"VIET NAM","Viet Nam","فيتنام"
+233,"VG","VGB",92,1284,"VIRGIN ISLANDS, BRITISH","Virgin Islands, British",NULL
+234,"VI","VIR",850,1340,"VIRGIN ISLANDS, U.S.","Virgin Islands, U.s.",NULL
+235,"WF","WLF",876,681,"WALLIS AND FUTUNA","Wallis and Futuna",NULL
+236,"EH","ESH",732,212,"WESTERN SAHARA","Western Sahara",NULL
+237,"YE","YEM",887,967,"YEMEN","Yemen","اليمن"
+238,"ZM","ZMB",894,260,"ZAMBIA","Zambia","زامبيا"
+239,"ZW","ZWE",716,263,"ZIMBABWE","Zimbabwe","زيمبابوي"
+240,"ME","MNE",499,382,"MONTENEGRO","Montenegro","الجبل الأسود"
+241,"XK","XKX",0,383,"KOSOVO","Kosovo",NULL
+242,"AX","ALA",248,358,"ALAND ISLANDS","Aland Islands",NULL
+243,"BQ","BES",535,599,"BONAIRE, SINT EUSTATIUS AND SABA","Bonaire, Sint Eustatius and Saba",NULL
+244,"CW","CUW",531,599,"CURACAO","Curacao",NULL
+245,"GG","GGY",831,44,"GUERNSEY","Guernsey",NULL
+246,"IM","IMN",833,44,"ISLE OF MAN","Isle of Man",NULL
+247,"JE","JEY",832,44,"JERSEY","Jersey",NULL
+248,"BL","BLM",652,590,"SAINT BARTHELEMY","Saint Barthelemy",NULL
+249,"MF","MAF",663,590,"SAINT MARTIN","Saint Martin",NULL
+250,"SX","SXM",534,1,"SINT MAARTEN","Sint Maarten",NULL
+251,"SS","SSD",728,211,"SOUTH SUDAN","South Sudan","جنوب السودان"

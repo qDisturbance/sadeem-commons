@@ -16,11 +16,12 @@ Apply helper directories to:
 
 `composer.json`
 
-```apacheconf
+```json
 "autoload": {
   "files": [
     "app/Helpers/Shared.php",
-    "app/Helpers/Database.php"
+    "app/Helpers/Database.php",
+    "app/Helpers/Constants.php"
   ],
   "psr-4": {
     ...
@@ -31,7 +32,20 @@ Apply helper directories to:
 
 ## Before you use:
 
-for `spatie/laravel-activitylog` migrations file `2021_00_00_000000_create_activity_log_table.php` change:
+run the following:
+
+`php artisan storage:link`
+
+`php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"`
+
+`php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider"`
+
+`php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"`
+
+## Vendor Spatie Changes
+for `spatie/laravel-activitylog` migrations file `2021_00_00_000000_create_activity_log_table.php`
+
+change:
 
 ```php
 $table->nullableMorphs('subject', 'subject');
