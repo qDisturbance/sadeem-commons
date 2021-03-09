@@ -40,24 +40,20 @@ class City extends Model
 
   // Model Utilities
 
-  /**
-   * Searches and sort based on the request parameters
-   *
-   * @param $request
-   */
   public function searchAndSort($request)
   {
     $q = $request->input('q', '');
     $sorts = explode(',', $request->input('sort', ''));
+    $confirmed = confirmColumns($sorts, config('sadeem.table_names.cities'));
 
     return $this
-      ->when(!empty($q), function () use ($q) {
+      ->when(!$confirmed && !empty($q), function () use ($q) {
         return $this->similarity('name', $q);
       })
-      ->when(empty($q) && !empty($sorts[0]), function () use ($sorts) {
+      ->when($confirmed && empty($q) && !empty($sorts[0]), function () use ($sorts) {
         return $this->orderQuery($sorts);
       })
-      ->when(empty($q) && empty($sorts[0]), function () {
+      ->when(!$confirmed && empty($q) && empty($sorts[0]), function () {
         return $this;
       });
   }

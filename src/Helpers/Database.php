@@ -6,14 +6,24 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Match the sortBy string to a column in a table.
  *
- * @param $tableName
- * @param $sortBy
+ * @param string $tableName
+ * @param array $sorts
  * @return bool
  */
-function confirmColumn($sortBy, $tableName): bool
+function confirmColumns($sorts, $tableName): bool
 {
   $columns = Schema::getColumnListing($tableName);
-  return in_array($sortBy, $columns);
+  $confirmed = true;
+
+  foreach ($sorts as $sort) {
+
+    $sort = str_replace('-', '', $sort);
+    $sort = str_replace(' ', '', $sort);
+
+    $inColumns = in_array($sort, $columns);
+    $confirmed = $confirmed && $inColumns;
+  }
+  return $confirmed;
 }
 
 /**
@@ -61,13 +71,13 @@ function orderQuery($modelInstance, $sorts): Builder
   foreach ($sorts as $sortColumn) {
 
     // remove empty spaces
-    $sortColumn = trim($sortColumn);
+    $sortColumn = str_replace(' ', '', $sortColumn);
 
     // decide the order direction
     $sortDirection = str_starts_with($sortColumn, '-') ? 'desc' : 'asc';
 
     // trim the order direction
-    $sortColumn = ltrim($sortColumn, '-');
+    $sortColumn = str_replace('-', '', $sortColumn);
 
     $query->orderBy($sortColumn, $sortDirection);
   }

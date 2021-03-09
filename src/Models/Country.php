@@ -31,56 +31,39 @@ class Country extends Model
 
   // Model Utilities
 
-  /**
-   * Searches and sort based on the request parameters
-   *
-   * @param $request
-   * @return Country|mixed
-   */
   public function searchAndSort($request)
   {
-    // Params list
-    $q = $request['q'];
-    $sort_by = $request['sort_by'];
-    $sort = $request['sort'];
-    if ($sort != 'desc') $sort = 'asc';
-
-    // Conditions list
-    $paramQ = isSetNotEmpty($q);
-    $paramSortBy = confirmColumn($sort_by, 'countries');
+    $q = $request->input('q', '');
+    $sorts = explode(',', $request->input('sort', ''));
+    $confirmed = confirmColumns($sorts, config('sadeem.table_names.countries'));
 
     return $this
-      ->when($paramQ, function () use ($q) {
-
-        $similarityByName = $this->similarityByName($q);
+      ->when(!$confirmed && !empty($q), function () use ($q) {
+        $similarityByName = $this->similarityByName('name', $q);
 
         $enResults = $similarityByName->get();
 
-        if(count($enResults) > 0)
-        {
+        if (count($enResults) > 0) {
           return $similarityByName;
         } else {
-          return $this->similarityByArName($q);
+          return $this->similarityByName('ar_name', $q);
         }
       })
-      ->when(!$paramQ && $paramSortBy, function () use ($sort_by, $sort) {
-        return $this->orderBy($sort_by, $sort);
+      ->when($confirmed && empty($q) && !empty($sorts[0]), function () use ($sorts) {
+        return $this->orderQuery($sorts);
       })
-      ->when(!$paramQ && !$paramSortBy, function () {
+      ->when(!$confirmed && empty($q) && empty($sorts[0]), function () {
         return $this;
       });
   }
 
-  public function similarityByName($q)
+  public function similarityByName($column, $q)
   {
-    return $this->selectRaw("*, similarity(name, ?) as difference", ["{$q}"])
-      ->whereRaw('similarity(name, ?) > ?', ["{$q}", 0.1])
-      ->orderBy('difference', 'desc');
+    return similarityByColumn($this, $column, $q);
   }
-  public function similarityByArName($q)
+
+  public function orderQuery($sorts)
   {
-    return $this->selectRaw("*, similarity(ar_name, ?) as difference", ["{$q}"])
-      ->whereRaw('similarity(ar_name, ?) > ?', ["{$q}", 0.1])
-      ->orderBy('difference', 'desc');
+    return orderQuery($this, $sorts);
   }
 }

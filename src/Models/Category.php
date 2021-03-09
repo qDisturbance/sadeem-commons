@@ -50,6 +50,7 @@ class Category extends Model
 
   public function similarity($column, $q)
   {
+    $column = confirmColumn($column, config('sadeem.table_names.categories'))? $column: 'name';
     return similarityByColumn($this, $column, $q);
   }
 

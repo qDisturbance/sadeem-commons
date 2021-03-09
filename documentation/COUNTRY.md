@@ -15,6 +15,20 @@ publish the assets using:
 `php artisan sadeem:seed-countries`
 
 ---
+## Routes
+
+## `index`
+
+can be searched using the `q` parameter in arabic and english for country names
+
+| Parameters | value | Description |
+| :--- | :--- | :--- |
+| q | string | searches arabic and english country names |
+| sort | table column | accepts any table column, add `-` to order by `desc` like `-name` |
+| include | icon | adds the icon path for the country flag in the response |
+
+
+---
 
 ## Usage 
 
@@ -60,7 +74,7 @@ and include it in the resource using:
 
 ## Data Samples
 
-published dir: `public/sadeem/countries.csv`
+published dir: `storage/app/public/sadeem/countries.csv`
 
 package dir: `resources/assets/countries.csv`
 
