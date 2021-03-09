@@ -19,7 +19,8 @@
   ],
   "require": {
     "goldspecdigital/laravel-eloquent-uuid": "^8.0",
-    "spatie/laravel-activitylog": "^3.17"
+    "spatie/laravel-activitylog": "^3.17",
+    "spatie/laravel-permission": "^3.18"
   },
   "config": {
     "sort-packages": true
@@ -33,9 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Sadeem\\Commons\\": "src",
-      "Database\\Factories\\": "database/factories",
-      "Database\\Seeders\\": "database/seeders"
+      "Sadeem\\Commons\\": "src"
     }
   },
   "minimum-stability": "dev",

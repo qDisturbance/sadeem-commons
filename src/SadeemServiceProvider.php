@@ -47,6 +47,14 @@ class SadeemServiceProvider extends ServiceProvider
   protected function publishResources()
   {
     $this->publishes([
+      __DIR__ . '/Helpers/Shared.php' => app_path('Helpers/Shared.php'),
+    ], 'helpers');
+
+    $this->publishes([
+      __DIR__ . '/Helpers/Database.php' => app_path('Helpers/Database.php'),
+    ], 'helpers');
+
+    $this->publishes([
       __DIR__ . '/../config/sadeem.php' => config_path('sadeem.php'),
     ], 'config');
 
