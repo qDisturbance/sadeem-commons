@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait HasCity
 {
-  public function country(): HasOne
+  public function city(): HasOne
   {
     return $this->hasOne(
       config('sadeem.models.city'),
