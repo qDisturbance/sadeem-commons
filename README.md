@@ -30,7 +30,28 @@ Apply helper directories to:
 },
 ```
 
-## Before you use:
+## Models Documentation
+
+- [City](documentation/CITY.md)
+- [Country](documentation/COUNTRY.md)
+- [Category](documentation/CATEGORY.md)
+
+
+## Helpers Documentation
+
+- [Shared](documentation/SHARED.md)
+- [Database](documentation/DATABASE.md)
+
+
+## Postgres required extensions
+
+| Name | command | Description |
+| :--- | :--- | :--- |
+| UUID | `CREATE EXTENSION "uuid-ossp";` | uuid support for primary keys|
+| PostGIS | `CREATE EXTENSION postgis;` | adds geospatial types to the db |
+| Trigram | `CREATE EXTENSION pg_trgm;` | Levenstein (string similarity) functions |
+
+## Before using:
 
 run the following:
 
@@ -42,7 +63,26 @@ run the following:
 
 `php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"`
 
-## Vendor Spatie Changes
+## Vendor Changes
+
+---
+
+for `spatie/permission` the published configuration `config/permissions.php` use the published models with uuid
+
+change:
+```php
+[
+  'models' => [
+    'permission' => App\Models\Permission::class,
+    'role' => App\Models\Role::class,
+  ],
+  'column_names' => [
+    'model_morph_key' => 'model_uuid',
+  ]
+];
+```
+---
+
 for `spatie/laravel-activitylog` migrations file `2021_00_00_000000_create_activity_log_table.php`
 
 change:
@@ -64,12 +104,12 @@ $table->nullableUuidMorphs('causer', 'causer');
 publishes the configuration
 `php artisan sadeem:publish`
 
-seeds with category samples
-`php artisan sadeem:seed-categories`
+seeds data samples
+`php artisan sadeem:seed-[model]` cities, countries or categories
 
 ## Seeding
 
-by default, it will read from the published assets under `public/sadeem/*.csv` files which you can edit prior to seeding
+by default, it will read from the published assets under `storage/app/public/sadeem/*.csv` files which you can edit prior to seeding
 if that file doesn't exist or has been removed it will use the version in the package directory
 
 ## Configuration
@@ -115,29 +155,8 @@ return [
     'countries' => false,
     'categories' => false,
   ]
-]
+];
 ```
-
-## Models Documentation
-
-- [City](documentation/CITY.md)
-- [Country](documentation/COUNTRY.md)
-- [Category](documentation/CATEGORY.md)
-
-
-## Helpers Documentation
-
-- [Shared](documentation/SHARED.md)
-- [Database](documentation/DATABASE.md)
-
-
-## Postgres required extensions
-
-| Name | command | Description |
-| :--- | :--- | :--- |
-| UUID | `CREATE EXTENSION "uuid-ossp";` | uuid support for primary keys|
-| PostGIS | `CREATE EXTENSION postgis;` | adds geospatial types to the db |
-| Trigram | `CREATE EXTENSION pg_trgm;` | Levenstein (string similarity) functions |
 
 ## LICENSE
 

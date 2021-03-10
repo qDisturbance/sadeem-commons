@@ -24,38 +24,65 @@ class Category extends Model
     'is_disabled'
   ];
 
-  // Model Utilities
+  // Model Specific Utilities
 
-  /**
-   * Searches and sort based on the request parameters
-   *
-   * @param $request
-   */
-  public function searchAndSort($request)
+  public function searchAndSort()
   {
-    $q = $request->input('q', '');
-    $sorts = explode(',', $request->input('sort', ''));
+    $q = request()->input('q', '');
+    $filter = request()->input('filter', '');
+    $sorts = explode(',', request()->input('sort', ''));
+    $confirmedSort = confirmColumns($sorts, $this->table);
+
+    $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
 
     return $this
-      ->when(!empty($q), function () use ($q) {
+      ->when($arr['qOnly'], function () use ($q) {
         return $this->similarity('name', $q);
       })
-      ->when(empty($q) && !empty($sorts[0]), function () use ($sorts) {
+      ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->similarity('name', $q)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortFilter'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->orderQuery($sorts)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortOnly'], function () use ($sorts) {
         return $this->orderQuery($sorts);
       })
-      ->when(empty($q) && empty($sorts[0]), function () {
+      ->when($arr['filterOnly'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+        return $this->where($criteria, $value);
+      })
+      ->when($arr['default'], function () {
         return $this;
       });
   }
 
   public function similarity($column, $q)
   {
-    $column = confirmColumn($column, config('sadeem.table_names.categories'))? $column: 'name';
+    $column = confirmColumns($column, $this->table)? $column: 'name';
+
     return similarityByColumn($this, $column, $q);
   }
 
   public function orderQuery($sorts)
   {
     return orderQuery($this, $sorts);
+  }
+
+  public function confirmFilter()
+  {
+    return confirmFilter(
+      request('filter'),
+      $this->table,
+      "name"
+    );
   }
 }

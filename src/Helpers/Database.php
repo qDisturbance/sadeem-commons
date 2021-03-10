@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Schema;
  */
 function confirmColumns($sorts, $tableName): bool
 {
+  if(count($sorts) <= 0) return false;
+
   $columns = Schema::getColumnListing($tableName);
   $confirmed = true;
 
@@ -24,6 +26,19 @@ function confirmColumns($sorts, $tableName): bool
     $confirmed = $confirmed && $inColumns;
   }
   return $confirmed;
+}
+
+function confirmFilter($filter, $tableName, $default)
+{
+  if(!strpos($filter, ':')) return [$default, ''];
+
+  [$criteria, $value] = explode(':', $filter);
+
+  $exists = confirmColumns([$criteria], $tableName);
+
+  if ($exists) return [$criteria, $value];
+
+  return [$default, $value];
 }
 
 /**
@@ -83,5 +98,25 @@ function orderQuery($modelInstance, $sorts): Builder
   }
 
   return $query;
+}
 
+/**
+ * Takes the search, sort and filter params
+ * and returns an array of combo conditions
+ *
+ * @param string $q
+ * @param $filter
+ * @param $confirmedSort
+ * @return array
+ */
+function buildSearchSortFilterConditions($q, $filter, $confirmedSort): array
+{
+  $arr['qOnly'] =       !empty($q) &&  empty($filter);
+  $arr['qFilter'] =     !empty($q) && !empty($filter);
+  $arr['sortFilter'] =   empty($q) && !empty($filter) &&  $confirmedSort;
+  $arr['sortOnly'] =     empty($q) &&  empty($filter) &&  $confirmedSort;
+  $arr['filterOnly'] =   empty($q) && !empty($filter) && !$confirmedSort;
+  $arr['default'] =      empty($q) &&  empty($filter) && !$confirmedSort;
+
+  return $arr;
 }

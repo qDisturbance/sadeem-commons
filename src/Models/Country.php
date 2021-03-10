@@ -15,9 +15,10 @@ class Country extends Model
     parent::__construct($attributes);
   }
 
+  public $incrementing = true;
+
   protected $guarded = ['id'];
   protected $primaryKey = 'id';
-  public $incrementing = true;
 
   protected $fillable = [
     'iso',
@@ -29,41 +30,72 @@ class Country extends Model
     'phone_code',
   ];
 
-  // Model Utilities
+  // Model Specific Utilities
 
-  public function searchAndSort($request)
+  public function searchAndSort()
   {
-    $q = $request->input('q', '');
-    $sorts = explode(',', $request->input('sort', ''));
-    $confirmed = confirmColumns($sorts, config('sadeem.table_names.countries'));
+    $q = request()->input('q', '');
+    $filter = request()->input('filter', '');
+    $sorts = explode(',', request()->input('sort', ''));
+    $confirmedSort = confirmColumns($sorts, $this->table);
+
+    $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
 
     return $this
-      ->when(!$confirmed && !empty($q), function () use ($q) {
-        $similarityByName = $this->similarityByName('name', $q);
-
-        $enResults = $similarityByName->get();
-
-        if (count($enResults) > 0) {
-          return $similarityByName;
-        } else {
-          return $this->similarityByName('ar_name', $q);
-        }
+      ->when($arr['qOnly'], function () use ($q) {
+        return $this->similarity($q);
       })
-      ->when($confirmed && empty($q) && !empty($sorts[0]), function () use ($sorts) {
+      ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->similarity($q)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortFilter'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->orderQuery($sorts)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortOnly'], function () use ($sorts) {
         return $this->orderQuery($sorts);
       })
-      ->when(!$confirmed && empty($q) && empty($sorts[0]), function () {
+      ->when($arr['filterOnly'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+        return $this->where($criteria, $value);
+      })
+      ->when($arr['default'], function () {
         return $this;
       });
   }
 
-  public function similarityByName($column, $q)
+  // General Utilities
+
+  public function similarity($q)
   {
-    return similarityByColumn($this, $column, $q);
+    $similarity = similarityByColumn($this, 'en_name', $q);
+
+    $enResults = $similarity->get();
+    if (count($enResults) > 0) {
+      return $similarity;
+    } else {
+      return similarityByColumn($this, 'ar_name', $q);
+    }
   }
 
   public function orderQuery($sorts)
   {
     return orderQuery($this, $sorts);
+  }
+
+  public function confirmFilter()
+  {
+    return confirmFilter(
+      request('filter'),
+      $this->table,
+      'name'
+    );
   }
 }

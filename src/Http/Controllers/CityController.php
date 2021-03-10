@@ -11,7 +11,7 @@ class CityController extends Controller
   {
     return new CityCollection(
       (new City())
-        ->searchAndSort(request())
+        ->searchAndSort()
         ->paginate(globalPaginationSize())
     );
   }

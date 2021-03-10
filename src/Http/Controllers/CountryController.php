@@ -16,7 +16,7 @@ class CountryController extends Controller
   {
     return new CountryCollection(
       (new Country())
-        ->searchAndSort(request())
+        ->searchAndSort()
         ->paginate(globalPaginationSize())
     );
   }

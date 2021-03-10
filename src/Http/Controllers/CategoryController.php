@@ -11,7 +11,7 @@ class CategoryController extends Controller
   {
     return new CategoryCollection(
       (new Category())
-        ->searchAndSort(request())
+        ->searchAndSort()
         ->paginate(globalPaginationSize())
     );
   }

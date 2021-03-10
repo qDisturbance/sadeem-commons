@@ -62,6 +62,12 @@ class SadeemServiceProvider extends ServiceProvider
     $this->publishes([__DIR__ . '/resources/assets' => storage_path("app/public/sadeem")], 'assets');
 
     $this->publishes([
+      __DIR__ . '/Models/User.php.stub' => app_path('Models/User.php'),
+      __DIR__ . '/Models/Role.php.stub' => app_path('Models/Role.php'),
+      __DIR__ . '/Models/Permission.php.stub' => app_path('Models/Permission.php'),
+    ], 'Models');
+
+    $this->publishes([
       __DIR__ . '/Helpers/Shared.php' => app_path('Helpers/Shared.php'),
       __DIR__ . '/Helpers/Database.php' => app_path('Helpers/Database.php'),
       __DIR__ . '/Helpers/Constants.php' => app_path('Helpers/Constants.php'),

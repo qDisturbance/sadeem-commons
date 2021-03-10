@@ -15,20 +15,20 @@ class CountryResource extends JsonResource
   public function toArray($request)
   {
     $iconSize = $request->input('iconSize', '');
+    $availableSize = in_array($iconSize, getFlagIconSizes());
 
-    if ($iconSize) {
-      $availableSize = in_array($iconSize, getFlagIconSizes());
-      if ($availableSize) $iconSize = $request['iconSize'];
+    if ($availableSize) {
+      $iconSize = request('iconSize');
     } else {
       $iconSize = 64;
     }
 
     $iconCondition = getIncludeCondition(
-      $request->get('include'),
+      $request->input('include', ''),
       'icon'
     );
 
-    $iconFileName = strtolower($this->iso).'.png';
+    $iconFileName = strtolower($this->iso) . '.png';
 
     return [
       'id' => $this->id,
@@ -41,7 +41,7 @@ class CountryResource extends JsonResource
       'phone_code' => $this->phone_code,
       'icon' => $this->when(
         $iconCondition,
-        storage_path(("app/public/assets/flags/{$iconSize}x{$iconSize}/{$iconFileName}"))
+        storage_path(("app/public/sadeem/flags/{$iconSize}x{$iconSize}/{$iconFileName}"))
       ),
     ];
   }

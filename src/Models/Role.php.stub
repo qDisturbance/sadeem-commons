@@ -44,9 +44,9 @@ use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
  */
 class Role extends Model implements RoleContract
 {
-    use HasPermissions;
-    use RefreshesPermissionCache;
-    use LogsActivity;
+    use HasPermissions,
+        RefreshesPermissionCache,
+        LogsActivity;
 
     protected $guarded = ['id'];
 
