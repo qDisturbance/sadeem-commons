@@ -35,13 +35,13 @@ class SadeemServiceProvider extends ServiceProvider
 
   public function registerRoutes()
   {
-    Route::group($this->routeConfiguration(config('sadeem.table_names.cities')), function () {
+    Route::group($this->routeConfiguration('cities'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/cities.php');
     });
-    Route::group($this->routeConfiguration(config('sadeem.table_names.countries')), function () {
+    Route::group($this->routeConfiguration('countries'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/countries.php');
     });
-    Route::group($this->routeConfiguration(config('sadeem.table_names.categories')), function () {
+    Route::group($this->routeConfiguration('categories'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/categories.php');
     });
   }

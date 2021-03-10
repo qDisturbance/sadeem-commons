@@ -3,4 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Sadeem\Commons\Http\Controllers\CountryController;
 
-Route::apiResource(config('sadeem.table_names.countries'), CountryController::class);
+$table = config('sadeem.table_names.countries');
+Route::apiResource($table, CountryController::class)
+  ->only('index', 'show');

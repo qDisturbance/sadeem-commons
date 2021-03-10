@@ -7,6 +7,8 @@ use Sadeem\Commons\Http\Resources\CityCollection;
 
 class CityController extends Controller
 {
+  public $modelName = "City";
+
   public function index()
   {
     return new CityCollection(

@@ -67,8 +67,6 @@ class Category extends Model
 
   public function similarity($column, $q)
   {
-    $column = confirmColumns($column, $this->table)? $column: 'name';
-
     return similarityByColumn($this, $column, $q);
   }
 

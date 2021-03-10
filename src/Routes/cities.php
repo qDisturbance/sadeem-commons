@@ -3,4 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Sadeem\Commons\Http\Controllers\CityController;
 
-Route::apiResource(config('sadeem.table_names.cities'), CityController::class);
+$table = config('sadeem.table_names.cities');
+$model = config('sadeem.model_names.city');
+
+Route::apiResource($table, CityController::class);
+Route::patch("{$table}/{{$model}}/toggle", [CityController::class, 'toggle'])
+  ->name("{$table}.toggle");

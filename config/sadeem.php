@@ -36,6 +36,12 @@ return [
     'category' => Sadeem\Commons\Models\Category::class,
   ],
 
+  'model_names' => [
+    'city' => 'city',
+    'country' => 'country',
+    'category' => 'category'
+  ],
+
   'table_names' => [
     'cities' => 'cities',
     'countries' => 'countries',
@@ -50,7 +56,7 @@ return [
   ],
 
   'table_timestamps' => [
-    'cities' => false,
+    'cities' => true,
     'countries' => false,
     'categories' => false,
   ]
