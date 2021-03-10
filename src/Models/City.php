@@ -40,20 +40,41 @@ class City extends Model
 
   // Model Utilities
 
-  public function searchAndSort($request)
+  public function searchAndSort()
   {
-    $q = $request->input('q', '');
-    $sorts = explode(',', $request->input('sort', ''));
-    $confirmed = confirmColumns($sorts, config('sadeem.table_names.cities'));
+    $q = request()->input('q', '');
+    $filter = request()->input('filter', '');
+    $sorts = explode(',', request()->input('sort', ''));
+    $confirmedSort = confirmColumns($sorts, $this->table);
+
+    $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
 
     return $this
-      ->when(!$confirmed && !empty($q), function () use ($q) {
+      ->when($arr['qOnly'], function () use ($q) {
         return $this->similarity('name', $q);
       })
-      ->when($confirmed && empty($q) && !empty($sorts[0]), function () use ($sorts) {
+      ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->similarity('name', $q)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortFilter'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+
+        return $this
+          ->orderQuery($sorts)
+          ->where($criteria, $value);
+      })
+      ->when($arr['sortOnly'], function () use ($sorts) {
         return $this->orderQuery($sorts);
       })
-      ->when(!$confirmed && empty($q) && empty($sorts[0]), function () {
+      ->when($arr['filterOnly'], function () use ($sorts) {
+        [$criteria, $value] = $this->confirmFilter();
+        return $this->where($criteria, $value);
+      })
+      ->when($arr['default'], function () {
         return $this;
       });
   }
@@ -66,5 +87,14 @@ class City extends Model
   public function orderQuery($sorts)
   {
     return orderQuery($this, $sorts);
+  }
+
+  public function confirmFilter()
+  {
+    return confirmFilter(
+      request('filter'),
+      $this->table,
+      "name"
+    );
   }
 }

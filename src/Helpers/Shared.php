@@ -74,61 +74,50 @@ function modelResponse($method, $modelName, $modelResource): Response
   switch ($method) {
     case 'GET':
       $statusCode = 200;
-      $code = 1000;
       $msg = "{$modelName} retrieved successfully";
       break;
     case 'POST':
       $statusCode = 201;
-      $code = 1000;
       $msg = "{$modelName} created successfully";
       break;
     case 'POST FAIL':
       $statusCode = 201;
-      $code = 3001;
       $msg = "{$modelName} was not created";
       break;
     case 'PATCH':
       $statusCode = 200;
-      $code = 1000;
       $msg = "{$modelName} updated successfully";
       break;
     case 'PATCH FAIL':
       $statusCode = 200;
-      $code = 3002;
       $msg = "{$modelName} model was not updated";
       break;
     case 'PATCH TOGGLE':
 
       $isDisabled = !is_null($modelResource) ? $modelResource->is_disabled : false;
       $statusCode = 200;
-      $code = 1000;
       $msg = $isDisabled ?
         "{$modelResource->name} disabled" :
         "{$modelResource->name} enabled";
       break;
     case 'PATCH TOGGLE FAIL':
       $statusCode = 200;
-      $code = 3002;
       $msg = "{$modelName}: Toggle failed";
       break;
     case 'DELETE':
       $statusCode = 200;
-      $code = 1000;
       $msg = "{$modelName} deleted successfully";
       break;
     case 'RESTORE':
       $statusCode = 200;
-      $code = 1000;
       $msg = "{$modelName} restored successfully";
       break;
     default:
       $statusCode = 500;
-      $code = 3002;
       $msg = "no method selected in SharedHelper response";
       break;
   }
   $responseArray = [
-    'code' => $code,
     'msg' => $msg,
   ];
 
