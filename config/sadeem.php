@@ -4,7 +4,7 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | Category Configurations
+  | Sadeem Commons Configurations
   |--------------------------------------------------------------------------
   |
   | Used for database models migration and api resource

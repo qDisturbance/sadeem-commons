@@ -42,12 +42,16 @@ class Category extends Model
       ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
         [$criteria, $value] = $this->confirmFilter();
 
+        if($criteria == 'parent_id') $value = $this->setToCategoryParentId($value);
+
         return $this
           ->similarity('name', $q)
           ->where($criteria, $value);
       })
       ->when($arr['sortFilter'], function () use ($sorts) {
         [$criteria, $value] = $this->confirmFilter();
+
+        if($criteria == 'parent_id') $value = $this->setToCategoryParentId($value);
 
         return $this
           ->orderQuery($sorts)
@@ -58,11 +62,19 @@ class Category extends Model
       })
       ->when($arr['filterOnly'], function () use ($sorts) {
         [$criteria, $value] = $this->confirmFilter();
+
+        if($criteria == 'parent_id') $value = $this->setToCategoryParentId($value);
+
         return $this->where($criteria, $value);
       })
       ->when($arr['default'], function () {
         return $this;
       });
+  }
+
+  public function setToCategoryParentId($value)
+  {
+    return Category::where('name', $value)->firstOrFail()->id;
   }
 
   public function similarity($column, $q)
