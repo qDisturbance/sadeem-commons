@@ -25,7 +25,7 @@ class CategoryCollection extends ResourceCollection
         'self' => route("{$tableName}.index"),
       ],
       'meta' => [
-        'sort_by' => $publicColumns,
+        'filters' => $publicColumns,
       ]
     ];
   }

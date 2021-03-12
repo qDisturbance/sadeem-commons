@@ -77,6 +77,18 @@ class Category extends Model
     return Category::where('name', $value)->firstOrFail()->id;
   }
 
+  public function getSuperParent($parent_id, $superParent)
+  {
+    if ($parent_id != null)
+    {
+      $superParent = $this->where('id', $parent_id)->first();
+
+      return $this->getSuperParent($superParent->parent_id, $superParent);
+    } else {
+      return $superParent;
+    }
+  }
+
   public function similarity($column, $q)
   {
     return similarityByColumn($this, $column, $q);

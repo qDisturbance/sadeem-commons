@@ -26,6 +26,7 @@ class CreateCategoriesTable extends Migration
       $table->string('name');
       $table->boolean('is_disabled');
       $table->char('parent_id', 36)->nullable()->comment('parent category id, if null it is a top level category');
+      $table->unique('name', 'parent_id');
     });
 
     if ($timestamps['categories']) {

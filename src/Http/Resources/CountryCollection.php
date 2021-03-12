@@ -26,7 +26,7 @@ class CountryCollection extends ResourceCollection
         'self' => route("{$tableName}.index"),
       ],
       'meta' => [
-        'sort_by' => $publicColumns,
+        'filters' => $publicColumns,
         'icon_sizes' => getFlagIconSizes()
       ]
     ];

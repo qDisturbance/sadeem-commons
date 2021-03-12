@@ -27,7 +27,6 @@ class CategoryResource extends JsonResource
    * Recurse through the category parents until a top level category is returned
    * @param $parent_id
    * @param $arr
-   * @return mixed
    */
   protected function getCategoryPath($parent_id, $arr)
   {
