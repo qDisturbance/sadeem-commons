@@ -19,15 +19,28 @@ return [
   |
   */
   'route_prefixes' => [
-    'cities' => '',
-    'countries' => '',
-    'categories' => '',
+    'edit' => [
+      'cities' => '',
+      'countries' => '',
+      'categories' => '',
+    ],
+    'read' => [
+      'cities' => '',
+      'countries' => '',
+      'categories' => '',
+    ]
   ],
 
   'route_middlewares' => [
-    'cities' => ['api'],
-    'countries' => ['api'],
-    'categories' => ['api'],
+    'edit' => [
+      'cities' => ['api'],
+      'categories' => ['api'],
+    ],
+    'read' => [
+      'cities' => ['api'],
+      'countries' => ['api'],
+      'categories' => ['api'],
+    ]
   ],
 
   'models' => [
