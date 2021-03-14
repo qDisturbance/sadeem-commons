@@ -81,6 +81,10 @@ function similarityByColumn($modelInstance, $column, $q): mixed
  */
 function orderQuery($modelInstance, $sorts): Builder
 {
+
+  $citiesTableName = config('sadeem.table_names.cities');
+  $citiesColumnName = config('sadeem.column_names.city_id');
+
   $query = $modelInstance::query();
 
   foreach ($sorts as $sortColumn) {
@@ -94,7 +98,19 @@ function orderQuery($modelInstance, $sorts): Builder
     // trim the order direction
     $sortColumn = str_replace('-', '', $sortColumn);
 
+    // sort by city name instead of id
+    if ($sortColumn == 'city_id') {
+
+      $query
+        ->join($citiesTableName,
+          $modelInstance->getTable().".".$citiesColumnName,
+          "=", "{$citiesTableName}.id")
+        ->select("{$modelInstance->getTable()}.*")
+        ->orderBy($citiesTableName.".name", $sortDirection);
+    }
+
     $query->orderBy($sortColumn, $sortDirection);
+
   }
 
   return $query;
