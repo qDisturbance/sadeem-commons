@@ -41,7 +41,7 @@ class CountryResource extends JsonResource
       'phone_code' => $this->phone_code,
       'icon' => $this->when(
         $iconCondition,
-        storage_path(("app/public/sadeem/flags/{$iconSize}x{$iconSize}/{$iconFileName}"))
+        public_path("sadeem/flags/{$iconSize}x{$iconSize}/{$iconFileName}")
       ),
     ];
   }

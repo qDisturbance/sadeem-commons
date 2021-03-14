@@ -7,7 +7,7 @@ use Sadeem\Commons\Models\Country;
 use Sadeem\Commons\Http\Resources\CountryResource;
 use Sadeem\Commons\Http\Resources\CountryCollection;
 
-class CountryController extends Controller
+class PublicCountryController extends Controller
 {
   public $modelName = "Country";
 

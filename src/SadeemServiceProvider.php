@@ -36,36 +36,38 @@ class SadeemServiceProvider extends ServiceProvider
   public function registerRoutes()
   {
     Route::group($this->routeReadConfiguration('countries'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/read/countries.php');
+      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/countries.php');
     });
     Route::group($this->routeReadConfiguration('cities'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/read/cities.php');
+      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
     });
     Route::group($this->routeReadConfiguration('categories'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/read/categories.php');
+      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/categories.php');
     });
 
     Route::group($this->routeEditConfiguration('cities'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/edit/cities.php');
+      $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
     });
     Route::group($this->routeEditConfiguration('categories'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/edit/categories.php');
+      $this->loadRoutesFrom(__DIR__ . '/Routes/admin/categories.php');
     });
   }
 
   protected function routeReadConfiguration($tableName)
   {
     return [
-      'prefix' => config("sadeem.route_prefixes.read.{$tableName}"),
-      'middleware' => config("sadeem.route_middlewares.read.{$tableName}"),
+      'as' => config("sadeem.route_as.readonly.{$tableName}"),
+      'prefix' => config("sadeem.route_prefixes.readonly.{$tableName}"),
+      'middleware' => config("sadeem.route_middlewares.readonly.{$tableName}"),
     ];
   }
 
   protected function routeEditConfiguration($tableName)
   {
     return [
-      'prefix' => config("sadeem.route_prefixes.edit.{$tableName}"),
-      'middleware' => config("sadeem.route_middlewares.edit.{$tableName}"),
+      'as' => config("sadeem.route_as.administration.{$tableName}"),
+      'prefix' => config("sadeem.route_prefixes.administration.{$tableName}"),
+      'middleware' => config("sadeem.route_middlewares.administration.{$tableName}"),
     ];
   }
 

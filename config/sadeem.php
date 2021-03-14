@@ -18,13 +18,26 @@ return [
   | after initial migration
   |
   */
-  'route_prefixes' => [
-    'edit' => [
+  'route_as' => [
+    'administration' => [
       'cities' => '',
       'countries' => '',
       'categories' => '',
     ],
-    'read' => [
+    'readonly' => [
+      'cities' => '',
+      'countries' => '',
+      'categories' => '',
+    ]
+  ],
+
+  'route_prefixes' => [
+    'administration' => [
+      'cities' => '',
+      'countries' => '',
+      'categories' => '',
+    ],
+    'readonly' => [
       'cities' => '',
       'countries' => '',
       'categories' => '',
@@ -32,11 +45,11 @@ return [
   ],
 
   'route_middlewares' => [
-    'edit' => [
+    'administration' => [
       'cities' => ['api'],
       'categories' => ['api'],
     ],
-    'read' => [
+    'readonly' => [
       'cities' => ['api'],
       'countries' => ['api'],
       'categories' => ['api'],

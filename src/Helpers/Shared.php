@@ -76,6 +76,10 @@ function modelResponse($method, $modelName, $modelResource): Response
       $statusCode = 200;
       $msg = "{$modelName} retrieved successfully";
       break;
+    case 'GET FAIL':
+      $statusCode = 404;
+      $msg = "{$modelName} not found";
+      break;
     case 'POST':
       $statusCode = 201;
       $msg = "{$modelName} created successfully";
