@@ -43,9 +43,9 @@ function confirmFilter($filter, $tableName, $default)
 
   $exists = confirmColumns([$criteria], $tableName);
 
-  if ($exists) return [$criteria, $value];
+  if ($exists) return [$tableName.'.'.$criteria, $value];
 
-  return [$default, $value];
+  return [$tableName.'.'.$default, $value];
 }
 
 /**
@@ -61,7 +61,7 @@ function isDisabledSwitch($modelInstance): void
   $modelInstance->save();
 }
 
-/**
+/*
  * Similarity By Column string search for all models.
  *
  * @param $modelInstance
@@ -69,7 +69,7 @@ function isDisabledSwitch($modelInstance): void
  * @param $q
  * @return mixed
  */
-function similarityByColumn($modelInstance, $column, $q): mixed
+function similarityByColumn($modelInstance, $column, $q)
 {
   $difference = "similarity({$column}, ?)";
 
@@ -136,7 +136,10 @@ function orderQuery($modelInstance, $sorts): Builder
           '=',
           "{$modelHasCategoriesTableName}.category_id"
         )
-        ->select($modelInstance->getTable() . ".*", "{$categoriesTableName}.name as category_name")
+        ->select(
+          $modelInstance->getTable() . ".*",
+          "{$categoriesTableName}.name as category_name"
+        )
         ->orderBy("category_name", $sortDirection);
     } else {
 
