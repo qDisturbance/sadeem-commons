@@ -5,16 +5,23 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Match the sortBy string to a column in a table.
+ * 3rd arg takes singular relation name city or
+ * category to confirm it for sort
  *
- * @param string $tableName
  * @param array $sorts
+ * @param string $tableName
+ * @param array $relationColumns
  * @return bool
  */
-function confirmColumns($sorts, $tableName): bool
+function confirmColumns($sorts, $tableName, $relationColumns = []): bool
 {
-  if(count($sorts) <= 0) return false;
+  if (count($sorts) <= 0) return false;
 
   $columns = Schema::getColumnListing($tableName);
+
+  foreach ($relationColumns as $relation)
+    array_push($columns, $relation);
+
   $confirmed = true;
 
   foreach ($sorts as $sort) {
@@ -30,7 +37,7 @@ function confirmColumns($sorts, $tableName): bool
 
 function confirmFilter($filter, $tableName, $default)
 {
-  if(!strpos($filter, ':')) return [$default, ''];
+  if (!strpos($filter, ':')) return [$default, ''];
 
   [$criteria, $value] = explode(':', $filter);
 
@@ -85,6 +92,10 @@ function orderQuery($modelInstance, $sorts): Builder
   $citiesTableName = config('sadeem.table_names.cities');
   $citiesColumnName = config('sadeem.column_names.city_id');
 
+  $modelHasCategoriesTableName = config('sadeem.table_names.model_has_categories');
+  $modelMorphKey = config('sadeem.column_names.model_morph_key');
+  $categoriesTableName = config('sadeem.table_names.categories');
+
   $query = $modelInstance::query();
 
   foreach ($sorts as $sortColumn) {
@@ -98,19 +109,40 @@ function orderQuery($modelInstance, $sorts): Builder
     // trim the order direction
     $sortColumn = str_replace('-', '', $sortColumn);
 
-    // sort by city name instead of id
-    if ($sortColumn == 'city_id') {
+    if ($sortColumn == 'city_id' || $sortColumn == 'city') {
+
+      // sort by city name instead of city_id
 
       $query
         ->join($citiesTableName,
-          $modelInstance->getTable().".".$citiesColumnName,
+          $modelInstance->getTable() . "." . $citiesColumnName,
           "=", "{$citiesTableName}.id")
         ->select("{$modelInstance->getTable()}.*")
-        ->orderBy($citiesTableName.".name", $sortDirection);
+        ->orderBy($citiesTableName . ".name", $sortDirection);
+    } elseif ($sortColumn == 'category') {
+
+      // sort by category morph relation
+
+      $query
+        ->join(
+          "{$modelHasCategoriesTableName}",
+          "{$modelHasCategoriesTableName}.{$modelMorphKey}",
+          '=',
+          $modelInstance->getTable() . ".id"
+        )
+        ->join(
+          "{$categoriesTableName}",
+          "{$categoriesTableName}.id",
+          '=',
+          "{$modelHasCategoriesTableName}.category_id"
+        )
+        ->select($modelInstance->getTable() . ".*", "{$categoriesTableName}.name as category_name")
+        ->orderBy("category_name", $sortDirection);
+    } else {
+
+      // sort by table column
+      $query->orderBy($sortColumn, $sortDirection);
     }
-
-    $query->orderBy($sortColumn, $sortDirection);
-
   }
 
   return $query;
@@ -127,12 +159,12 @@ function orderQuery($modelInstance, $sorts): Builder
  */
 function buildSearchSortFilterConditions($q, $filter, $confirmedSort): array
 {
-  $arr['qOnly'] =       !empty($q) &&  empty($filter);
-  $arr['qFilter'] =     !empty($q) && !empty($filter);
-  $arr['sortFilter'] =   empty($q) && !empty($filter) &&  $confirmedSort;
-  $arr['sortOnly'] =     empty($q) &&  empty($filter) &&  $confirmedSort;
-  $arr['filterOnly'] =   empty($q) && !empty($filter) && !$confirmedSort;
-  $arr['default'] =      empty($q) &&  empty($filter) && !$confirmedSort;
+  $arr['qOnly'] = !empty($q) && empty($filter);
+  $arr['qFilter'] = !empty($q) && !empty($filter);
+  $arr['sortFilter'] = empty($q) && !empty($filter) && $confirmedSort;
+  $arr['sortOnly'] = empty($q) && empty($filter) && $confirmedSort;
+  $arr['filterOnly'] = empty($q) && !empty($filter) && !$confirmedSort;
+  $arr['default'] = empty($q) && empty($filter) && !$confirmedSort;
 
   return $arr;
 }
