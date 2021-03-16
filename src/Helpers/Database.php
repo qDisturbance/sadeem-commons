@@ -35,7 +35,13 @@ function confirmColumns($sorts, $tableName, $relationColumns = []): bool
   return $confirmed;
 }
 
-function confirmFilter($filter, $tableName, $default)
+/**
+ * @param $filter
+ * @param $tableName
+ * @param $default
+ * @return array
+ */
+function confirmFilter($filter, $tableName, $default): array
 {
   if (!strpos($filter, ':')) return [$default, ''];
 
