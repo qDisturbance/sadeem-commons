@@ -9,8 +9,6 @@ use Sadeem\Commons\Http\Resources\CityCollection;
 
 class PublicCityController extends Controller
 {
-  public $modelName = "City";
-
   public function index()
   {
     return new CityCollection(
@@ -25,9 +23,9 @@ class PublicCityController extends Controller
   {
     if (!$city->is_disabled) {
       $modelResource = new CityResource($city);
-      return modelResponse('GET', $this->modelName, $modelResource);
+      return modelResponse('GET', __('models.city'), $modelResource);
     }
 
-    return modelResponse('GET FAIL', $this->modelName, null);
+    return modelResponse('GET FAIL', __('models.city'), null);
   }
 }

@@ -9,8 +9,6 @@ use Sadeem\Commons\Http\Resources\CountryCollection;
 
 class PublicCountryController extends Controller
 {
-  public $modelName = "Country";
-
   public function index(): CountryCollection
   {
     return new CountryCollection(
@@ -22,6 +20,6 @@ class PublicCountryController extends Controller
   public function show(Country $country): Response
   {
     $modelResource = new CountryResource($country);
-    return modelResponse('GET', $this->modelName, $modelResource);
+    return modelResponse('GET', __('models.country'), $modelResource);
   }
 }

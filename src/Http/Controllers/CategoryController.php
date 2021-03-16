@@ -24,7 +24,7 @@ class CategoryController extends Controller
   public function show(Category $category)
   {
     $modelResource = new CategoryResource($category);
-    return modelResponse('GET', $this->modelName, $modelResource);
+    return modelResponse('GET', __('models.category'), $modelResource);
   }
 
   public function store(CategoryRequest $request): Response
@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
     $modelResource = new CategoryResource($category);
 
-    return modelResponse('POST', $this->modelName, $modelResource);
+    return modelResponse('POST', __('models.category'), $modelResource);
   }
 
   public function update(CategoryRequest $request, Category $category)
@@ -56,9 +56,9 @@ class CategoryController extends Controller
 
     if ($category->wasChanged()) {
       $modelResource = new CategoryResource($category);
-      return modelResponse('PATCH', $this->modelName, $modelResource);
+      return modelResponse('PATCH', __('models.category'), $modelResource);
     } else {
-      return modelResponse('PATCH FAIL', $this->modelName, null);
+      return modelResponse('PATCH FAIL', __('models.category'), null);
     }
   }
 
@@ -69,9 +69,9 @@ class CategoryController extends Controller
     $modelResource = new CategoryResource($category);
 
     if ($category->wasChanged()) {
-      return modelResponse('PATCH TOGGLE', $this->modelName, $modelResource);
+      return modelResponse('PATCH TOGGLE', __('models.category'), $modelResource);
     } else {
-      return modelResponse('PATCH TOGGLE FAIL', $this->modelName, $modelResource);
+      return modelResponse('PATCH TOGGLE FAIL', __('models.category'), $modelResource);
     }
   }
 
@@ -80,6 +80,6 @@ class CategoryController extends Controller
     $modelResource = new CategoryResource($category);
     $category->delete();
 
-    return modelResponse('DELETE', $this->modelName, $modelResource);
+    return modelResponse('DELETE', __('models.category'), $modelResource);
   }
 }

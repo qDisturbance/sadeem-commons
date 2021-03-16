@@ -44,6 +44,7 @@ function confirmFilter($filter, $tableName, $default)
   $exists = confirmColumns([$criteria], $tableName);
 
   if ($exists) return [$tableName.'.'.$criteria, $value];
+  if ($criteria == 'role') return [$criteria, $value];
 
   return [$tableName.'.'.$default, $value];
 }
