@@ -36,12 +36,17 @@ function confirmColumns($sorts, $tableName, $relationColumns = []): bool
 }
 
 /**
+ * Takes a filter and check it over table columns
+ * can make a default column if the check fails
+ * can add relation columns to pass the check
+ *
  * @param $filter
  * @param $tableName
  * @param $default
+ * @param $relationColumns
  * @return array
  */
-function confirmFilter($filter, $tableName, $default): array
+function confirmFilter($filter, $tableName, $default, $relationColumns = []): array
 {
   if (!strpos($filter, ':')) return [$default, ''];
 
@@ -50,7 +55,8 @@ function confirmFilter($filter, $tableName, $default): array
   $exists = confirmColumns([$criteria], $tableName);
 
   if ($exists) return [$tableName.'.'.$criteria, $value];
-  if ($criteria == 'role') return [$criteria, $value];
+//  if ($criteria == 'role') return [$criteria, $value];
+  if (in_array($criteria, $relationColumns)) return [$criteria, $value];
 
   return [$tableName.'.'.$default, $value];
 }

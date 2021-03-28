@@ -78,7 +78,10 @@ class SadeemServiceProvider extends ServiceProvider
     $this->publishes([__DIR__ . '/../config/sadeem.php' => config_path('sadeem.php')], 'config');
     $this->publishes([__DIR__ . '/resources/assets' => storage_path("app/public/sadeem")], 'assets');
 
-    // TODO: publish lang resource files
+    /*
+     * Language resource files
+     */
+    $this->publishes([__DIR__ . '/resources/lang' => base_path("resources/lang")], 'assets');
 
     $this->publishes([
       __DIR__ . '/Models/User.php.stub' => app_path('Models/User.php'),

@@ -126,7 +126,8 @@ class User extends Authenticatable implements JWTSubject
     return confirmFilter(
       request('filter'),
       'users',
-      "email"
+      "email",
+      ['role']
     );
   }
 }
