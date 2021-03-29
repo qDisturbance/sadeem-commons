@@ -15,7 +15,6 @@ class PublicCountryController extends Controller
       return new CountryCollection(
         (new Country())
           ->searchAndSort()
-          ->where('is_disabled', false)
           ->paginate(request()->input('paginate', globalPaginationSize()))
       );
 
@@ -23,7 +22,6 @@ class PublicCountryController extends Controller
       return new CountryCollection(
         (new Country())
           ->searchAndSort()
-          ->where('is_disabled', false)
           ->get()
       );
     }
