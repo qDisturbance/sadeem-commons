@@ -11,12 +11,22 @@ class PublicCityController extends Controller
 {
   public function index()
   {
-    return new CityCollection(
-      (new City())
-        ->searchAndSort()
-        ->where('is_disabled', false)
-        ->paginate(globalPaginationSize())
-    );
+    if (!empty(request()->input('paginate'))) {
+      return new CityCollection(
+        (new City())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->paginate(request()->input('paginate', globalPaginationSize()))
+      );
+
+    } else {
+      return new CityCollection(
+        (new City())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->get()
+      );
+    }
   }
 
   public function show(City $city): Response

@@ -11,11 +11,22 @@ class PublicCountryController extends Controller
 {
   public function index(): CountryCollection
   {
-    return new CountryCollection(
-      (new Country())
-        ->searchAndSort()
-        ->paginate(globalPaginationSize())
-    );
+    if (!empty(request()->input('paginate'))) {
+      return new CountryCollection(
+        (new Country())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->paginate(request()->input('paginate', globalPaginationSize()))
+      );
+
+    } else {
+      return new CountryCollection(
+        (new Country())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->get()
+      );
+    }
   }
   public function show(Country $country): Response
   {

@@ -10,15 +10,22 @@ use Sadeem\Commons\Http\Resources\CategoryCollection;
 
 class CategoryController extends Controller
 {
-  public $modelName = "Category";
-
   public function index()
   {
-    return new CategoryCollection(
-      (new Category())
-        ->searchAndSort()
-        ->paginate(globalPaginationSize())
-    );
+    if (!empty(request()->input('paginate'))) {
+      return new CategoryCollection(
+        (new Category())
+          ->searchAndSort()
+          ->paginate(request()->input('paginate', globalPaginationSize()))
+      );
+
+    } else {
+      return new CategoryCollection(
+        (new Category())
+          ->searchAndSort()
+          ->get()
+      );
+    }
   }
 
   public function show(Category $category)
@@ -31,7 +38,7 @@ class CategoryController extends Controller
   {
     $parent = null;
 
-    if(!empty($request['parent']))
+    if (!empty($request['parent']))
       $parent = Category::where('name', $request['parent'])->firstOrFail()->id;
 
     $category = Category::firstOrCreate([
@@ -49,8 +56,8 @@ class CategoryController extends Controller
   {
     $data = $request->only(['name', 'is_disabled']);
 
-    if(!empty($request['parent']))
-      $data['parent_id']  = Category::where('name', $request['parent'])->firstOrFail()->id;
+    if (!empty($request['parent']))
+      $data['parent_id'] = Category::where('name', $request['parent'])->firstOrFail()->id;
 
     $category->update($data);
 

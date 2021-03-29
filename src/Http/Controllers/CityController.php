@@ -13,11 +13,20 @@ class CityController extends Controller
 {
   public function index()
   {
-    return new CityCollection(
-      (new City())
-        ->searchAndSort()
-        ->paginate(globalPaginationSize())
-    );
+    if (!empty(request()->input('paginate'))) {
+      return new CityCollection(
+        (new City())
+          ->searchAndSort()
+          ->paginate(request()->input('paginate', globalPaginationSize()))
+      );
+
+    } else {
+      return new CityCollection(
+        (new City())
+          ->searchAndSort()
+          ->get()
+      );
+    }
   }
 
   public function show(City $city): Response

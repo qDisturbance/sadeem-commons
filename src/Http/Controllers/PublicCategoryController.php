@@ -10,13 +10,23 @@ class PublicCategoryController extends Controller
 {
   public function index()
   {
-    return new CategoryCollection(
-      (new Category())
-        ->searchAndSort()
-        ->where('is_disabled', false)
-        ->paginate(globalPaginationSize())
-    );
+    if (!empty(request()->input('paginate'))) {
+      return new CategoryCollection(
+        (new Category())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->paginate(request()->input('paginate', globalPaginationSize()))
+      );
+    } else {
+      return new CategoryCollection(
+        (new Category())
+          ->searchAndSort()
+          ->where('is_disabled', false)
+          ->get()
+      );
+    }
   }
+
   public function show(Category $category)
   {
     if (!$category->is_disabled) {

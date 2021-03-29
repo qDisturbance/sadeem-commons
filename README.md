@@ -102,7 +102,7 @@ $table->nullableUuidMorphs('causer', 'causer');
 ## Commands:
 
 publishes the configuration
-`php artisan sadeem:publish`
+`php artisan sadeem:config`
 
 seeds data samples
 `php artisan sadeem:seed-[model]` cities, countries or categories
