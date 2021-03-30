@@ -29,9 +29,11 @@ class SeedCity extends Command
 
       City::create([
         'id' => $data[0],
-        'name' => $data[1],
-        'is_disabled' => $data[2],
-        'location' => $data[3]
+        'country_id' => $data[1],
+        'name' => $data[2],
+        'en_name' => $data[3],
+        'is_disabled' => $data[4],
+        'location' => $data[5]
         ]);
     }
 

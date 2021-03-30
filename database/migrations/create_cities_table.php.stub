@@ -15,7 +15,9 @@ class CreateCitiesTable extends Migration
   {
     Schema::create(config('sadeem.table_names.cities'), function (Blueprint $table) {
       $table->uuid('id')->primary();
-      $table->string('name')->unique();
+      $table->smallInteger('country_id');
+      $table->string('name');
+      $table->string('en_name');
       $table->boolean('is_disabled')->default(0);
       $table->point('location', 'GEOGRAPHY')->nullable();
     });

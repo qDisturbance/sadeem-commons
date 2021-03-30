@@ -22,7 +22,9 @@ class City extends Model
   protected $guarded = ['id'];
 
   protected $fillable = [
+    'country_id',
     'name',
+    'en_name',
     'is_disabled',
     'location'
   ];

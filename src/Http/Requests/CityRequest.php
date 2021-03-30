@@ -23,14 +23,15 @@ class CityRequest extends FormRequest
    */
   public function rules()
   {
-    $table = config('sadeem.table_names.cities');
-    $model = config('sadeem.model_names.city');
+//    $table = config('sadeem.table_names.cities');
+//    $model = config('sadeem.model_names.city');
 
     $method = $this->method();
 
     if ($method == "POST") {
       return [
-        'name' => "required|unique:{$table}|min:3|max:255",
+        'name' => "required|min:3|max:255",
+        'en_name' => "required|min:3|max:255",
         'lat' => 'string',
         'lng' => 'string'
       ];
@@ -38,10 +39,11 @@ class CityRequest extends FormRequest
 
     if ($method == "PATCH") {
 
-      $id = $this->route($model)->id;
+//      $id = $this->route($model)->id;
 
       return [
-        'name' => "min:3|max:255|unique:{$table},name,{$id}",
+        'name' => "min:3|max:255",
+        'en_name' => "min:3|max:255",
         'is_disabled' => 'boolean',
         'lat' => 'string',
         'lng' => 'string'

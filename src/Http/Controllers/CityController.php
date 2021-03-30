@@ -38,15 +38,15 @@ class CityController extends Controller
   public function store(CityRequest $request): Response
   {
     $city = City::firstOrCreate([
-      'name' => $request['name'],
+      'name' => $request->input('name'),
       'is_disabled' => false
     ]);
 
-    if ($request['lat'] && $request['lng']) {
-      $city->location = new Point(
-        $request['lat'],
-        $request['lng']
-      );
+    $lat = $request->input('lat');
+    $lng = $request->input('lng');
+
+    if (!empty($lat) && !empty($lng)) {
+      $city->location = new Point($lat, $lng);
       $city->save();
     }
 
@@ -61,11 +61,11 @@ class CityController extends Controller
 
     $city->update($data);
 
-    if ($request['lat'] && $request['lng']) {
-      $city->location = new Point(
-        $request['lat'],
-        $request['lng']
-      );
+    $lat = $request->input('lat');
+    $lng = $request->input('lng');
+
+    if (!empty($lat) && !empty($lng)) {
+      $city->location = new Point($lat, $lng);
       $city->save();
     }
 
