@@ -18,6 +18,28 @@ return [
   | after initial migration
   |
   */
+
+  /*
+   * This trigger will connect the common modules like city, prayer times and weather
+   * to the sadeem Dandelion service
+   */
+  'use_dandelion_resources' => true,
+
+  'resource' => [
+    'connection' => 'dandelion',
+    'db_host' => '127.0.0.1',
+    'db_port' => '5432',
+    'db_name' => 'dandelion',
+    'db_user' => 'roayaadmin',
+    'db_password' => 'password',
+    'db_schema' => 'public',
+    'db_fdw' => 'postgres_fdw',
+    'db_fdw_server' => 'dandelion',
+    'tables' => [
+      'cities' => 'cities'
+    ],
+  ],
+
   'route_as' => [
     'administration' => [
       'cities' => '',

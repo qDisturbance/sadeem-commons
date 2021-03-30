@@ -13,8 +13,14 @@ class City extends Model
 
   public function __construct(array $attributes = [])
   {
-    $this->setTable(config('sadeem.table_names.cities'));
-    $this->timestamps = config('sadeem.table_timestamps.cities');
+    if (config('sadeem.use_dandelion_resources')) {
+      $this->setTable('cities');
+      $this->timestamps = true;
+      $this->setConnection(config('sadeem.connection'));
+    } else {
+      $this->setTable(config('sadeem.table_names.cities'));
+      $this->timestamps = config('sadeem.table_timestamps.cities');
+    }
 
     parent::__construct($attributes);
   }
@@ -31,7 +37,7 @@ class City extends Model
 
   protected $attributes = ['is_disabled' => false,];
 
-  protected $postgisFields = ['location',];
+  protected $postgisFields = ['location'];
 
   protected $postgisTypes = [
     'location' => [
