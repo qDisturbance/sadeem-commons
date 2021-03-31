@@ -74,51 +74,50 @@ function modelResponse($method, $modelName, $modelResource): Response
   switch ($method) {
     case 'GET':
       $statusCode = 200;
-      $msg = "{$modelName} retrieved successfully";
+      $msg = __('messages.GET', ['modelName'  => $modelName]);
       break;
     case 'GET FAIL':
       $statusCode = 404;
-      $msg = "{$modelName} not found";
+      $msg = __('messages.GET_FAIL', ['modelName'  => $modelName]);
       break;
     case 'POST':
       $statusCode = 201;
-      $msg = "{$modelName} created successfully";
+      $msg = __('messages.POST', ['modelName'  => $modelName]);
       break;
     case 'POST FAIL':
-      $statusCode = 201;
-      $msg = "{$modelName} was not created";
+      $statusCode = 200;
+      $msg = __('messages.POST_FAIL', ['modelName'  => $modelName]);
       break;
     case 'PATCH':
       $statusCode = 200;
-      $msg = "{$modelName} updated successfully";
+      $msg = __('messages.PATCH', ['modelName'  => $modelName]);
       break;
     case 'PATCH FAIL':
       $statusCode = 200;
-      $msg = "{$modelName} model was not updated";
+      $msg = __('messages.PATCH_FAIL', ['modelName'  => $modelName]);
       break;
     case 'PATCH TOGGLE':
-
       $isDisabled = !is_null($modelResource) ? $modelResource->is_disabled : false;
       $statusCode = 200;
       $msg = $isDisabled ?
-        "{$modelResource->name} disabled" :
-        "{$modelResource->name} enabled";
+        __('messages.TOGGLE_DISABLED', ['modelName'  => $modelResource->name]) :
+        __('messages.TOGGLE_ENABLED', ['modelName'  => $modelResource->name]) ;
       break;
     case 'PATCH TOGGLE FAIL':
       $statusCode = 200;
-      $msg = "{$modelName}: Toggle failed";
+      $msg = __('messages.TOGGLE_FAIL', ['modelName'  => $modelName]);
       break;
     case 'DELETE':
       $statusCode = 200;
-      $msg = "{$modelName} deleted successfully";
+      $msg = __('messages.DELETE', ['modelName'  => $modelName]);
       break;
     case 'RESTORE':
       $statusCode = 200;
-      $msg = "{$modelName} restored successfully";
+      $msg = __('messages.RESTORE', ['modelName'  => $modelName]);
       break;
     default:
       $statusCode = 500;
-      $msg = "no method selected in SharedHelper response";
+      $msg = __('messages.NO_METHOD', ['modelName'  => $modelName]);
       break;
   }
   $responseArray = [
