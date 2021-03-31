@@ -45,9 +45,12 @@ class SadeemServiceProvider extends ServiceProvider
       $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/categories.php');
     });
 
-    Route::group($this->routeEditConfiguration('cities'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
-    });
+    if (!config('sadeem.use_dandelion_resources')) {
+      Route::group($this->routeEditConfiguration('cities'), function () {
+        $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
+      });
+    }
+
     Route::group($this->routeEditConfiguration('categories'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/admin/categories.php');
     });

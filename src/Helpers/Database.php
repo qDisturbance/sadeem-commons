@@ -96,6 +96,7 @@ function similarityByColumn($modelInstance, $column, $q)
  * Builds a query using multiple sort param values
  * as in ?sort=parent_id, -is_disabled
  *
+ * @param $modelInstance
  * @param $sorts
  * @return Builder
  */
