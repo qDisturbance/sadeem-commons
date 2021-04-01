@@ -33,6 +33,8 @@ class CategoryRequest extends FormRequest
     $name = $this->input('name');
     $parent_id = $this->input('parent_id');
 
+    $imgValidations = 'file|mimes:jpg,bmp,png|between:50,2048|dimensions:min_width=100,min_height=200';
+
     if ($method == "POST") {
       return [
         'name' => [
@@ -45,6 +47,7 @@ class CategoryRequest extends FormRequest
               ->where('parent_id', $parent_id);
           }),
         ],
+        'img' => $imgValidations,
         'parent_id' => "min:3|max:255|exists:{$table}",
       ];
     };
@@ -64,6 +67,7 @@ class CategoryRequest extends FormRequest
               ->whereNotIn('id', [$id]);
           }),
         ],
+        'img' => $imgValidations,
         'parent_id' => "min:3|max:255|exists:{$table},parent_id,{$parent_id}",
         'is_disabled' => 'boolean'
       ];

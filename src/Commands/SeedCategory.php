@@ -32,8 +32,9 @@ class SeedCategory extends Command
       Category::create([
         'id' => $data[0],
         'name' => $data[1],
-        'is_disabled' => $data[2],
-        'parent_id' => $data[3]
+        'img' => $data[2],
+        'is_disabled' => $data[3],
+        'parent_id' => $data[4]
       ]);
     }
 

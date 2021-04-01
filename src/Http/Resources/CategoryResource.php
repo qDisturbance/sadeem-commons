@@ -18,6 +18,7 @@ class CategoryResource extends JsonResource
     return [
       'id' => $this->id,
       'name' => $this->name,
+      'img' => $this->img,
       'is_disabled' => $this->is_disabled,
       'parent' => $this->getCategoryPath($this->parent_id, $arr = [])
     ];

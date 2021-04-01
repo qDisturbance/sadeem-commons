@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
+use Sadeem\Commons\Models\Category;
 
 /**
  * Match the sortBy string to a column in a table.
@@ -54,11 +55,11 @@ function confirmFilter($filter, $tableName, $default, $relationColumns = []): ar
 
   $exists = confirmColumns([$criteria], $tableName);
 
-  if ($exists) return [$tableName.'.'.$criteria, $value];
+  if ($exists) return [$tableName . '.' . $criteria, $value];
 //  if ($criteria == 'role') return [$criteria, $value];
   if (in_array($criteria, $relationColumns)) return [$criteria, $value];
 
-  return [$tableName.'.'.$default, $value];
+  return [$tableName . '.' . $default, $value];
 }
 
 /**
@@ -184,4 +185,39 @@ function buildSearchSortFilterConditions($q, $filter, $confirmedSort): array
   $arr['default'] = empty($q) && empty($filter) && !$confirmedSort;
 
   return $arr;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Insert Categories
+|--------------------------------------------------------------------------
+|
+| $superParent refers to the top level category, when set null it gets the
+| pictures, events, news categories, otherwise you can access sub
+| categories of those as pictures > portraits
+|
+| by setting topParentName = portraits
+|        and   superParent = pictures
+|
+*/
+function attachCategories($modelInstance, $topParentName, $superParent, $categories, $isUpdate): bool
+{
+  $changed = false;
+
+  if (isSetArrayInput($categories)) {
+
+    if ($isUpdate) $modelInstance->categories()->detach();
+
+    foreach ($categories as $category) {
+      $superParentName = (new Category())
+        ->getSuperParent($category, $superParent)->name;
+
+      if ($superParentName == $topParentName) $modelInstance->categories()->attach($category);
+    };
+
+    $changed = true;
+  };
+
+  return $changed;
 }

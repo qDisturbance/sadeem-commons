@@ -15,7 +15,6 @@ class CreateCategoriesTable extends Migration
   {
     $tableNames = config('sadeem.table_names');
     $columnNames = config('sadeem.column_names');
-    $timestamps = config('sadeem.table_timestamps');
 
     if (empty($tableNames)) {
       throw new Exception('Error: config/sadeem.php not loaded. Run [php artisan config:clear] and try again.');
@@ -24,12 +23,13 @@ class CreateCategoriesTable extends Migration
     Schema::create($tableNames['categories'], function (Blueprint $table) {
       $table->uuid('id')->unique()->primary();
       $table->string('name');
+      $table->text('img');
       $table->boolean('is_disabled');
       $table->char('parent_id', 36)->nullable()->comment('parent category id, if null it is a top level category');
       $table->unique(['name', 'parent_id']);
     });
 
-    if ($timestamps['categories']) {
+    if (config('sadeem.table_timestamps.categories')) {
       Schema::table($tableNames['categories'], function (Blueprint $table) {
         $table->timestampsTz();
       });

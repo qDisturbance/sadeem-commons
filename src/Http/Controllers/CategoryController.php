@@ -10,7 +10,7 @@ use Sadeem\Commons\Http\Resources\CategoryCollection;
 
 class CategoryController extends Controller
 {
-  public function index()
+  public function index(): CategoryCollection
   {
     if (!empty(request()->input('paginate'))) {
       return new CategoryCollection(
@@ -28,7 +28,7 @@ class CategoryController extends Controller
     }
   }
 
-  public function show(Category $category)
+  public function show(Category $category): Response
   {
     $modelResource = new CategoryResource($category);
     return modelResponse('GET', __('models.category'), $modelResource);
@@ -36,28 +36,48 @@ class CategoryController extends Controller
 
   public function store(CategoryRequest $request): Response
   {
-    $parent = null;
+    $parentId = null;
 
-    if (!empty($request['parent']))
-      $parent = Category::where('name', $request['parent'])->firstOrFail()->id;
+    if (!empty($request->input('parent')))
+      $parentId = Category::where('name', $request->input('parent'))->firstOrFail()->id;
+
+    $name = $request->input('name');
+    $img = insertImage($request->file('img'), 'photographs');
 
     $category = Category::firstOrCreate([
-      'name' => $request['name'],
-      'parent_id' => $parent,
-      'is_disabled' => false
+      'name' => $name,
+      'img' => $img,
+      'is_disabled' => false,
+      'parent_id' => $parentId
     ]);
 
-    $modelResource = new CategoryResource($category);
-
-    return modelResponse('POST', __('models.category'), $modelResource);
+    if ($category) {
+      $modelResource = new CategoryResource($category);
+      return modelResponse('POST', __('models.category'), $modelResource);
+    } else {
+      return modelResponse('POST FAIL', __('models.category'), null);
+    }
   }
 
-  public function update(CategoryRequest $request, Category $category)
+  /*
+   * Update an image alone
+   */
+  public function updateImage(CategoryRequest $request, Category $category): Response
+  {
+    return updateImage(
+      $category,
+      __('models.category'),
+      'categories',
+      $request->file('img')
+    );
+  }
+
+  public function update(CategoryRequest $request, Category $category): Response
   {
     $data = $request->only(['name', 'is_disabled']);
 
-    if (!empty($request['parent']))
-      $data['parent_id'] = Category::where('name', $request['parent'])->firstOrFail()->id;
+    if(!empty($request->input('parent')))
+      $data['parent_id']  = Category::where('name', $request['parent'])->firstOrFail()->id;
 
     $category->update($data);
 
@@ -82,7 +102,7 @@ class CategoryController extends Controller
     }
   }
 
-  public function destroy(Category $category)
+  public function destroy(Category $category): Response
   {
     $modelResource = new CategoryResource($category);
     $category->delete();
