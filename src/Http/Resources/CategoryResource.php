@@ -20,6 +20,14 @@ class CategoryResource extends JsonResource
       'name' => $this->name,
       'img' => $this->img,
       'is_disabled' => $this->is_disabled,
+      'created_at' => $this->when(
+        config('sadeem.table_timestamps.categories'),
+        $this->created_at
+      ),
+      'updated_at' => $this->when(
+        config('sadeem.table_timestamps.categories'),
+        $this->updated_at
+      ),
       'parent' => $this->getCategoryPath($this->parent_id, $arr = [])
     ];
   }

@@ -27,7 +27,7 @@ class SeedCategory extends Command
     for ($i = 1; $i < count($csvFile); $i++) {
       $data = str_getcsv($csvFile[$i]);
 
-      if ($data[3] == 'NULL') $data[3] = NULL;
+      if ($data[4] == 'NULL') $data[4] = null;
 
       Category::create([
         'id' => $data[0],

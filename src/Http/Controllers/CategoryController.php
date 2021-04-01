@@ -38,11 +38,11 @@ class CategoryController extends Controller
   {
     $parentId = null;
 
-    if (!empty($request->input('parent')))
-      $parentId = Category::where('name', $request->input('parent'))->firstOrFail()->id;
+    if (!empty($request->input('parent_id')))
+      $parentId = Category::where('id', $request->input('parent_id'))->firstOrFail()->id;
 
     $name = $request->input('name');
-    $img = insertImage($request->file('img'), 'photographs');
+    $img = insertImage($request->file('img'), 'categories');
 
     $category = Category::firstOrCreate([
       'name' => $name,
@@ -76,8 +76,9 @@ class CategoryController extends Controller
   {
     $data = $request->only(['name', 'is_disabled']);
 
-    if(!empty($request->input('parent')))
-      $data['parent_id']  = Category::where('name', $request['parent'])->firstOrFail()->id;
+    if (!empty($request->input('parent_id'))) {
+      $data['parent_id']= Category::where('id', $request->input('parent_id'))->firstOrFail()->id;
+    }
 
     $category->update($data);
 

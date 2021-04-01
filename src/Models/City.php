@@ -2,13 +2,14 @@
 
 namespace Sadeem\Commons\Models;
 
+use Sadeem\Commons\Traits\HasCountry;
 use Spatie\Activitylog\Traits\LogsActivity;
 use MStaack\LaravelPostgis\Eloquent\PostgisTrait;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class City extends Model
 {
-  use LogsActivity, PostgisTrait;
+  use LogsActivity, PostgisTrait, HasCountry;
 
 
   public function __construct(array $attributes = [])
@@ -25,6 +26,7 @@ class City extends Model
     parent::__construct($attributes);
   }
 
+  protected $with = ['country'];
   protected $guarded = ['id'];
 
   protected $fillable = [

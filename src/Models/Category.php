@@ -27,6 +27,19 @@ class Category extends Model
 
   // Model Specific Utilities
 
+  public function getSuperParent($parent_id, $superParent)
+  {
+    if ($parent_id != null) {
+      $superParent = $this->where('id', $parent_id)->first();
+
+      return $this->getSuperParent($superParent->parent_id, $superParent);
+    } else {
+      return $superParent;
+    }
+  }
+
+  // Model Utilities
+
   public function searchAndSort()
   {
     $q = request()->input('q', '');
@@ -43,7 +56,7 @@ class Category extends Model
       ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
         [$criteria, $value] = $this->confirmFilter();
 
-        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->setToCategoryParentId($value);
+//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
 
         return $this
           ->similarity('name', $q)
@@ -52,7 +65,7 @@ class Category extends Model
       ->when($arr['sortFilter'], function () use ($sorts) {
         [$criteria, $value] = $this->confirmFilter();
 
-        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->setToCategoryParentId($value);
+//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
 
         return $this
           ->orderQuery($sorts)
@@ -64,29 +77,13 @@ class Category extends Model
       ->when($arr['filterOnly'], function () use ($sorts) {
         [$criteria, $value] = $this->confirmFilter();
 
-        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->setToCategoryParentId($value);
+//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
 
         return $this->where($criteria, $value);
       })
       ->when($arr['default'], function () {
         return $this;
       });
-  }
-
-  public function setToCategoryParentId($value)
-  {
-    return Category::where('name', $value)->firstOrFail()->id;
-  }
-
-  public function getSuperParent($parent_id, $superParent)
-  {
-    if ($parent_id != null) {
-      $superParent = $this->where('id', $parent_id)->first();
-
-      return $this->getSuperParent($superParent->parent_id, $superParent);
-    } else {
-      return $superParent;
-    }
   }
 
   public function similarity($column, $q)

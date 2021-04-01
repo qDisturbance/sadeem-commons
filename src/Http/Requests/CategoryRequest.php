@@ -15,7 +15,22 @@ class CategoryRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->check() && !auth()->user()->is_disabled;
+    $method = $this->method();
+    $allowed = false;
+    $user = auth()->user();
+
+    if ($method == "POST") {
+      $allowed = $user->can('add categories');
+    }
+
+    if (
+      $method == "PATCH" ||
+      $this->route()->getActionMethod() == 'updateImage'
+    ) {
+      $allowed = $user->can('edit categories');
+    }
+
+    return auth()->check() && $allowed;
   }
 
   /**
@@ -35,6 +50,10 @@ class CategoryRequest extends FormRequest
 
     $imgValidations = 'file|mimes:jpg,bmp,png|between:50,2048|dimensions:min_width=100,min_height=200';
 
+    if ($this->route()->getActionMethod() == 'updateImage') {
+      return ['img' => "required|{$imgValidations}"];
+    }
+
     if ($method == "POST") {
       return [
         'name' => [
@@ -48,7 +67,7 @@ class CategoryRequest extends FormRequest
           }),
         ],
         'img' => $imgValidations,
-        'parent_id' => "min:3|max:255|exists:{$table}",
+        'parent_id' => "sometimes|string|exists:{$table},id",
       ];
     };
     if ($method == "PATCH") {
@@ -68,7 +87,7 @@ class CategoryRequest extends FormRequest
           }),
         ],
         'img' => $imgValidations,
-        'parent_id' => "min:3|max:255|exists:{$table},parent_id,{$parent_id}",
+        'parent_id' => "sometimes|string|exists:{$table},id",
         'is_disabled' => 'boolean'
       ];
     };
