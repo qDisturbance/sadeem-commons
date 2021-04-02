@@ -3,6 +3,7 @@
 namespace Sadeem\Commons\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Sadeem\Commons\Models\Category;
 
 trait HasCategories
 {
@@ -19,31 +20,39 @@ trait HasCategories
 
   // TODO: add sorting by category in the trait
 
+  public function getCategoryIdByName($name)
+  {
+    return Category::where('name', $name)->firstOrFail()->id;
+  }
+
   /*
   |--------------------------------------------------------------------------
-  | Insert Categories
+  | Attach Categories
   |--------------------------------------------------------------------------
   |
-  | $superParent refers to the top level category, when set null it gets the
-  | pictures, events, news categories, otherwise you can access sub
-  | categories of those as pictures > portraits
-  |
-  | by setting topParentName = portraits
-  |        and   superParent = pictures
+  | $superParentID accepts categories that are direct children to it
   |
   */
-  public function attachCategories($topParentId, $superParent, $categories, $isUpdate): bool
+  public function attachCategories($superParentId, $categories, $isUpdate): bool
   {
     $changed = false;
 
     if (isSetArrayInput($categories)) {
 
-      if ($isUpdate) $this->categories()->detach();
+      if ($isUpdate) {
 
-      foreach ($categories as $category) {
-        $superParentId = $this->getSuperParent($category, $superParent)->id;
+        $diff = array_diff($categories, $this->categories()->pluck('id')->toArray());
 
-        if ($superParentId == $topParentId) $this->categories()->attach($category);
+        if (empty($diff)) return false;
+
+        $this->categories()->detach();
+      }
+
+      foreach ($categories as $categoryId) {
+        $category = Category::where('id', $categoryId)->firstOrFail();
+
+        if ($category->parent_id == $superParentId)
+          $this->categories()->attach($category);
       };
 
       $changed = true;

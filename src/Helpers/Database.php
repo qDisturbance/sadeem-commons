@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
-use Sadeem\Commons\Models\Category;
+use MStaack\LaravelPostgis\Geometries\Point;
 
 /**
  * Match the sortBy string to a column in a table.
@@ -187,37 +187,27 @@ function buildSearchSortFilterConditions($q, $filter, $confirmedSort): array
   return $arr;
 }
 
-
 /*
 |--------------------------------------------------------------------------
-| Insert Categories
+| update location attribute
 |--------------------------------------------------------------------------
 |
-| $superParent refers to the top level category, when set null it gets the
-| pictures, events, news categories, otherwise you can access sub
-| categories of those as pictures > portraits
-|
-| by setting topParentName = portraits
-|        and   superParent = pictures
+| checks value change of Point Type attribute, updates it
+| and returns a boolean
 |
 */
-function attachCategories($modelInstance, $topParentName, $superParent, $categories, $isUpdate): bool
+function updateLocationAttribute($moduleInstance, $lat, $lng): bool
 {
   $changed = false;
+  $oldLoc = $moduleInstance->location;
 
-  if (isSetArrayInput($categories)) {
+  if ($oldLoc->getLat() == $lat && $oldLoc->getLng() == $lng) return false;
 
-    if ($isUpdate) $modelInstance->categories()->detach();
-
-    foreach ($categories as $category) {
-      $superParentName = (new Category())
-        ->getSuperParent($category, $superParent)->name;
-
-      if ($superParentName == $topParentName) $modelInstance->categories()->attach($category);
-    };
-
+  if (!empty($lat) && !empty($lng)) {
+    $moduleInstance->location = new Point($lat, $lng);
+    $moduleInstance->save();
     $changed = true;
-  };
-
+  }
   return $changed;
 }
+

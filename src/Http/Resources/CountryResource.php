@@ -33,10 +33,10 @@ class CountryResource extends JsonResource
     return [
       'id' => $this->id,
       'iso' => $this->iso,
+      'iso3' => $this->iso3,
       'name' => $this->name,
       'en_name' => $this->en_name,
       'ar_name' => $this->ar_name,
-      'iso3' => $this->iso3,
       'num_code' => $this->num_code,
       'phone_code' => $this->phone_code,
       'icon' => $this->when(

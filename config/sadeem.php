@@ -23,15 +23,16 @@ return [
    * This trigger will connect the common modules like city, prayer times and weather
    * to the sadeem Dandelion service
    */
-  'use_dandelion_resources' => true,
+  'use_dandelion_resources' => false,
 
   'resource' => [
     'connection' => 'dandelion',
-    'db_host' => '127.0.0.1',
-    'db_port' => '5432',
-    'db_name' => 'dandelion',
-    'db_user' => 'roayaadmin',
-    'db_password' => 'password',
+    'db_host' => env('postgres_fdw_host'),
+    'db_port' => env('postgres_fdw_port'),
+    'db_name' => env('postgres_fdw_db'),
+    'db_superuser' => env('DB_USERNAME'),
+    'db_user' => env('postgres_fdw_user'),
+    'db_password' => env('postgres_fdw_pass'),
     'db_schema' => 'public',
     'db_fdw' => 'postgres_fdw',
     'db_fdw_server' => 'dandelion',
