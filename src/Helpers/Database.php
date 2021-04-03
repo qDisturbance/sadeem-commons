@@ -201,7 +201,10 @@ function updateLocationAttribute($moduleInstance, $lat, $lng): bool
   $changed = false;
   $oldLoc = $moduleInstance->location;
 
-  if ($oldLoc->getLat() == $lat && $oldLoc->getLng() == $lng) return false;
+  if (!is_null($moduleInstance->location)) {
+    if ($oldLoc->getLat() == $lat && $oldLoc->getLng() == $lng)
+      return false;
+  }
 
   if (!empty($lat) && !empty($lng)) {
     $moduleInstance->location = new Point($lat, $lng);

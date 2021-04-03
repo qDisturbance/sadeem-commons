@@ -4,6 +4,7 @@ namespace Sadeem\Commons\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryResource extends JsonResource
 {
@@ -15,10 +16,14 @@ class CategoryResource extends JsonResource
    */
   public function toArray($request)
   {
+
+    $thumbImageName = 'thumb_'.basename(Storage::url($this->img));
+
     return [
       'id' => $this->id,
       'name' => $this->name,
-      'img' => $this->img,
+      'img' => getDomain() . Storage::url($this->img),
+      'thumb' => getDomain() . Storage::url("public/pictures/categories/thumbs/{$thumbImageName}"),
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
