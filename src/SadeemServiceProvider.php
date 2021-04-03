@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Sadeem\Commons\Commands\SeedCity;
 use Sadeem\Commons\Commands\SeedCountry;
 use Sadeem\Commons\Commands\SeedCategory;
+use Sadeem\Commons\Commands\UpdateWeather;
 use Sadeem\Commons\Commands\PublishConfig;
 
 class SadeemServiceProvider extends ServiceProvider
@@ -21,7 +22,8 @@ class SadeemServiceProvider extends ServiceProvider
         PublishConfig::class,
         SeedCategory::class,
         SeedCountry::class,
-        SeedCity::class
+        SeedCity::class,
+        UpdateWeather::class
       ]);
 
       $this->publishResources();
@@ -48,6 +50,10 @@ class SadeemServiceProvider extends ServiceProvider
     if (!config('sadeem.use_dandelion_resources')) {
       Route::group($this->routeEditConfiguration('cities'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
+      });
+
+      Route::group($this->routeReadConfiguration('weather'), function () {
+        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/weather.php');
       });
     }
 

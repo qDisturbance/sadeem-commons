@@ -9,7 +9,7 @@ use Sadeem\Commons\Http\Resources\CityCollection;
 
 class PublicCityController extends Controller
 {
-  public function index()
+  public function index(): CityCollection
   {
     if (!empty(request()->input('paginate'))) {
       return new CityCollection(

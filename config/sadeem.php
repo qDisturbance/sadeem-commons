@@ -36,7 +36,8 @@ return [
     'db_fdw' => 'postgres_fdw',
     'db_fdw_server' => 'dandelion',
     'tables' => [
-      'cities' => 'cities'
+      'cities' => 'cities',
+      'weather' => 'weather'
     ],
   ],
 
@@ -63,6 +64,7 @@ return [
       'cities' => '',
       'countries' => '',
       'categories' => '',
+      'weather' => '',
     ]
   ],
 
@@ -70,11 +72,13 @@ return [
     'administration' => [
       'cities' => ['api'],
       'categories' => ['api'],
+      'weather' => ['api'],
     ],
     'readonly' => [
       'cities' => ['api'],
       'countries' => ['api'],
       'categories' => ['api'],
+      'weather' => ['api'],
     ]
   ],
 

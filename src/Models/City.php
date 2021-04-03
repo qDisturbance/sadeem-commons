@@ -16,7 +16,7 @@ class City extends Model
     if (config('sadeem.use_dandelion_resources')) {
       $this->setTable('cities');
       $this->timestamps = true;
-      $this->setConnection(config('sadeem.connection'));
+      $this->setConnection(config('sadeem.resource.connection'));
     } else {
       $this->setTable(config('sadeem.table_names.cities'));
       $this->timestamps = config('sadeem.table_timestamps.cities');
