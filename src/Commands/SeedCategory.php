@@ -27,13 +27,14 @@ class SeedCategory extends Command
     for ($i = 1; $i < count($csvFile); $i++) {
       $data = str_getcsv($csvFile[$i]);
 
-      if ($data[3] == 'NULL') $data[3] = NULL;
+      if ($data[4] == 'NULL') $data[4] = null;
 
       Category::create([
         'id' => $data[0],
         'name' => $data[1],
-        'is_disabled' => $data[2],
-        'parent_id' => $data[3]
+        'img' => $data[2],
+        'is_disabled' => $data[3],
+        'parent_id' => $data[4]
       ]);
     }
 

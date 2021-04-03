@@ -13,7 +13,7 @@ class CityRequest extends FormRequest
    */
   public function authorize()
   {
-    return auth()->check() && !auth()->user()->is_disabled;
+    return auth()->check();
   }
 
   /**
@@ -25,6 +25,8 @@ class CityRequest extends FormRequest
   {
 //    $table = config('sadeem.table_names.cities');
 //    $model = config('sadeem.model_names.city');
+    $countriesTable = config('sadeem.table_names.countries');
+//    $countriesModel = config('sadeem.model_names.country');
 
     $method = $this->method();
 
@@ -33,7 +35,8 @@ class CityRequest extends FormRequest
         'name' => "required|min:3|max:255",
         'en_name' => "required|min:3|max:255",
         'lat' => 'string',
-        'lng' => 'string'
+        'lng' => 'string',
+        'country_id' => "required|int|exists:{$countriesTable},id",
       ];
     };
 
@@ -46,7 +49,8 @@ class CityRequest extends FormRequest
         'en_name' => "min:3|max:255",
         'is_disabled' => 'boolean',
         'lat' => 'string',
-        'lng' => 'string'
+        'lng' => 'string',
+        'country_id' => "int|exists:{$countriesTable},id",
       ];
     };
 

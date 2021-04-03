@@ -37,10 +37,10 @@ class CityController extends Controller
 
   public function store(CityRequest $request): Response
   {
-    $city = City::firstOrCreate([
-      'name' => $request->input('name'),
-      'is_disabled' => false
-    ]);
+    $data = $request->only(['name','en_name','country_id']);
+    $data['is_disabled'] = false;
+
+    $city = City::firstOrCreate($data);
 
     $lat = $request->input('lat');
     $lng = $request->input('lng');
@@ -57,7 +57,7 @@ class CityController extends Controller
 
   public function update(CityRequest $request, City $city): Response
   {
-    $data = $request->only(['name', 'is_disabled']);
+    $data = $request->only(['name','en_name', 'is_disabled','country_id']);
 
     $city->update($data);
 

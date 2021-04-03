@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
+use MStaack\LaravelPostgis\Geometries\Point;
 
 /**
  * Match the sortBy string to a column in a table.
@@ -54,11 +55,11 @@ function confirmFilter($filter, $tableName, $default, $relationColumns = []): ar
 
   $exists = confirmColumns([$criteria], $tableName);
 
-  if ($exists) return [$tableName.'.'.$criteria, $value];
+  if ($exists) return [$tableName . '.' . $criteria, $value];
 //  if ($criteria == 'role') return [$criteria, $value];
   if (in_array($criteria, $relationColumns)) return [$criteria, $value];
 
-  return [$tableName.'.'.$default, $value];
+  return [$tableName . '.' . $default, $value];
 }
 
 /**
@@ -185,3 +186,31 @@ function buildSearchSortFilterConditions($q, $filter, $confirmedSort): array
 
   return $arr;
 }
+
+/*
+|--------------------------------------------------------------------------
+| update location attribute
+|--------------------------------------------------------------------------
+|
+| checks value change of Point Type attribute, updates it
+| and returns a boolean
+|
+*/
+function updateLocationAttribute($moduleInstance, $lat, $lng): bool
+{
+  $changed = false;
+  $oldLoc = $moduleInstance->location;
+
+  if (!is_null($moduleInstance->location)) {
+    if ($oldLoc->getLat() == $lat && $oldLoc->getLng() == $lng)
+      return false;
+  }
+
+  if (!empty($lat) && !empty($lng)) {
+    $moduleInstance->location = new Point($lat, $lng);
+    $moduleInstance->save();
+    $changed = true;
+  }
+  return $changed;
+}
+

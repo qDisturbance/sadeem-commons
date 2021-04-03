@@ -130,3 +130,40 @@ function modelResponse($method, $modelName, $modelResource): Response
 
   return response($responseArray, $statusCode);
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Uploads an image and returns path
+|--------------------------------------------------------------------------
+*/
+function insertImage($file, $subDirectory)
+{
+  if (isset($file)) {
+    $file_ext = $file->getClientOriginalExtension();
+    $file_name = "{$subDirectory}_" . date_timestamp_get(now()) . '_' . auth()->user()->id . '.' . $file_ext;
+    return $file->storeAs("public/pictures/{$subDirectory}", $file_name);
+  }
+  return null;
+}
+
+/*
+|--------------------------------------------------------------------------
+| deletes an image on new upload to same object
+|--------------------------------------------------------------------------
+*/
+function updateImage($modelInstance, $modelName, $subDirectory, $file)
+{
+  if (!empty($file)) Storage::delete($modelInstance->img);
+
+  $data['img'] = insertImage($file, $subDirectory);
+
+  $modelInstance->update($data);
+
+  if ($modelInstance->wasChanged()) {
+    return modelResponse('PATCH', $modelName, $data);
+  } else {
+    return modelResponse('PATCH FAIL', $modelName, null);
+  }
+}
+

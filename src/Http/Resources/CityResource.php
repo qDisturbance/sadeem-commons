@@ -4,6 +4,7 @@ namespace Sadeem\Commons\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Sadeem\Commons\Models\Country;
 
 class CityResource extends JsonResource
 {
@@ -15,12 +16,29 @@ class CityResource extends JsonResource
    */
   public function toArray($request)
   {
+    $countryCondition = getIncludeCondition($request->input('include'), 'country');
+
     return [
       'id' => $this->id,
-      'country_id' => $this->country_id,
+      'country_id' => $this->when(
+        !$countryCondition,
+        (int)$this->country_id
+      ),
+      'country' => $this->when(
+        $countryCondition,
+        new CountryResource(Country::where('id', $this->country_id)->first())
+      ),
       'name' => $this->name,
       'en_name' => $this->en_name,
       'is_disabled' => $this->is_disabled,
+      'created_at' => $this->when(
+        config('sadeem.table_timestamps.cities'),
+        $this->created_at
+      ),
+      'updated_at' => $this->when(
+        config('sadeem.table_timestamps.cities'),
+        $this->updated_at
+      ),
       'location' => $this->location
     ];
   }
