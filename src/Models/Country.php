@@ -9,8 +9,14 @@ class Country extends Model
 
   public function __construct(array $attributes = [])
   {
-    $this->setTable(config('sadeem.table_names.countries'));
-    $this->timestamps = config('sadeem.table_timestamps.countries');
+    if (config('sadeem.use_dandelion_resources')) {
+      $this->setTable('countries');
+      $this->timestamps = true;
+      $this->setConnection(config('sadeem.resource.connection'));
+    } else {
+      $this->setTable(config('sadeem.table_names.countries'));
+      $this->timestamps = config('sadeem.table_timestamps.countries');
+    }
 
     parent::__construct($attributes);
   }

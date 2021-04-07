@@ -37,14 +37,17 @@ class SadeemServiceProvider extends ServiceProvider
 
   public function registerRoutes()
   {
+
     Route::group($this->routeReadConfiguration('countries'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/countries.php');
     });
+
     if (!config('sadeem.use_dandelion_resources')) {
       Route::group($this->routeReadConfiguration('cities'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
       });
     }
+
     Route::group($this->routeReadConfiguration('categories'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/categories.php');
     });
