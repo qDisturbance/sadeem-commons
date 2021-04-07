@@ -9,6 +9,7 @@ use Sadeem\Commons\Commands\SeedCountry;
 use Sadeem\Commons\Commands\SeedCategory;
 use Sadeem\Commons\Commands\UpdateWeather;
 use Sadeem\Commons\Commands\PublishConfig;
+use Sadeem\Commons\Commands\SeedPrayerTimes;
 
 class SadeemServiceProvider extends ServiceProvider
 {
@@ -19,11 +20,12 @@ class SadeemServiceProvider extends ServiceProvider
     if ($this->app->runningInConsole()) {
 
       $this->commands([
-        PublishConfig::class,
-        SeedCategory::class,
-        SeedCountry::class,
         SeedCity::class,
-        UpdateWeather::class
+        SeedCountry::class,
+        SeedCategory::class,
+        UpdateWeather::class,
+        PublishConfig::class,
+        SeedPrayerTimes::class
       ]);
 
       $this->publishResources();
@@ -38,15 +40,19 @@ class SadeemServiceProvider extends ServiceProvider
   public function registerRoutes()
   {
 
-    Route::group($this->routeReadConfiguration('countries'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/countries.php');
-    });
-
     if (!config('sadeem.use_dandelion_resources')) {
       Route::group($this->routeReadConfiguration('cities'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
       });
     }
+
+    Route::group($this->routeReadConfiguration('countries'), function () {
+      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/countries.php');
+    });
+
+    Route::group($this->routeReadConfiguration('prayer_times'), function () {
+      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/prayer_times.php');
+    });
 
     Route::group($this->routeReadConfiguration('categories'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/categories.php');

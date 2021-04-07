@@ -87,12 +87,14 @@ return [
     'city' => Sadeem\Commons\Models\City::class,
     'country' => Sadeem\Commons\Models\Country::class,
     'category' => Sadeem\Commons\Models\Category::class,
+    'weather' => Sadeem\Commons\Models\Weather::class,
   ],
 
   'model_names' => [
     'city' => 'city',
     'country' => 'country',
-    'category' => 'category'
+    'category' => 'category',
+    'weather' => 'weather'
   ],
 
   'table_names' => [

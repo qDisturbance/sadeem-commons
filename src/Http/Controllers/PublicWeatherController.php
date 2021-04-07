@@ -27,33 +27,4 @@ class PublicWeatherController extends Controller
       return WeatherResource::collection(Weather::all());
     }
   }
-
-  public function store(): Response
-  {
-
-    $cities = City::all();
-
-    foreach ($cities as $city) {
-      $lat = $city->location->getLat();
-      $lng = $city->location->getLng();
-
-      $weather = Http::get("api.openweathermap.org/data/2.5/find", [
-        'lat' => $lat,
-        'lon' => $lng,
-        'cnt' => 1,
-        'units' => 'metric',
-        'lang' => 'ar',
-        'appid' => config('openweather.api_key')
-      ])->json();
-
-      Weather::create([
-        'city_id' => $city->id,
-        'weather' => json_encode($weather['list'][0])
-      ]);
-
-    }
-    return response([
-      'msg' => 'Inserted cities weather data'
-    ]);
-  }
 }
