@@ -44,14 +44,18 @@ class SadeemServiceProvider extends ServiceProvider
       Route::group($this->routeReadConfiguration('cities'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
       });
+
+      Route::group($this->routeReadConfiguration('weather'), function () {
+        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/weather.php');
+      });
+
+      Route::group($this->routeReadConfiguration('prayer_times'), function () {
+        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/prayer_times.php');
+      });
     }
 
     Route::group($this->routeReadConfiguration('countries'), function () {
       $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/countries.php');
-    });
-
-    Route::group($this->routeReadConfiguration('prayer_times'), function () {
-      $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/prayer_times.php');
     });
 
     Route::group($this->routeReadConfiguration('categories'), function () {
@@ -63,9 +67,6 @@ class SadeemServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
       });
 
-      Route::group($this->routeReadConfiguration('weather'), function () {
-        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/weather.php');
-      });
     }
 
     Route::group($this->routeEditConfiguration('categories'), function () {

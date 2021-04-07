@@ -5,4 +5,4 @@ use Sadeem\Commons\Http\Controllers\PublicWeatherController;
 
 $table = config('sadeem.table_names.weather');
 
-Route::apiResource($table, PublicWeatherController::class)->only(['index', 'show']);
+Route::apiResource($table, PublicWeatherController::class)->only(['index']);
