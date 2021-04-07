@@ -20,12 +20,13 @@
     }
   ],
   "require": {
+    "ext-zip": "*",
+    "alkoumi/laravel-hijri-date": "^1.0",
     "goldspecdigital/laravel-eloquent-uuid": "^8.0",
+    "mstaack/laravel-postgis": "^5.2",
     "spatie/laravel-activitylog": "^3.17",
     "spatie/laravel-permission": "^3.18",
-    "mstaack/laravel-postgis": "^5.2",
-    "tymon/jwt-auth": "dev-develop",
-    "ext-zip": "*"
+    "tymon/jwt-auth": "dev-develop"
   },
   "config": {
     "sort-packages": true
