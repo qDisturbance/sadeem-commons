@@ -116,13 +116,23 @@ class SadeemServiceProvider extends ServiceProvider
       __DIR__ . '/Helpers/Constants.php' => app_path('Helpers/Constants.php'),
     ], 'helpers');
 
-    if (!class_exists('CreateCategoriesTable')
-      && !class_exists('CreateCountriesTable')
-      && !class_exists('CreateCountriesTable')) {
+    $this->publishes([
+      __DIR__ . '/Exceptions/Handler.php' => app_path('Exceptions/Handler.php')
+    ], 'exceptions');
+
+    if (!config('sadeem.use_dandelion_resources')) {
 
       $this->publishes([
         __DIR__ . '/../database/migrations/create_cities_table.php.stub' => database_path("/migrations/{$timestamp}_create_cities_table.php"),
         __DIR__ . '/../database/migrations/create_countries_table.php.stub' => database_path("/migrations/{$timestamp}_create_countries_table.php"),
+        __DIR__ . '/../database/migrations/create_categories_table.php.stub' => database_path("/migrations/{$timestamp}_create_categories_table.php"),
+      ], 'migrations');
+
+    } else {
+
+      $this->publishes([
+        __DIR__ . '/../database/migrations/create_postgres_extensions.php.stub' => database_path("/migrations/2021_00_00_000000_create_postgres_extensions.php"),
+        __DIR__ . '/../database/migrations/import_foreign_tables.php.stub' => database_path("/migrations/2021_00_00_000001_import_foreign_tables.php"),
         __DIR__ . '/../database/migrations/create_categories_table.php.stub' => database_path("/migrations/{$timestamp}_create_categories_table.php"),
       ], 'migrations');
     }

@@ -42,13 +42,11 @@ class CityController extends Controller
 
     $city = City::firstOrCreate($data);
 
-    $lat = $request->input('lat');
-    $lng = $request->input('lng');
-
-    if (!empty($lat) && !empty($lng)) {
-      $city->location = new Point($lat, $lng);
-      $city->save();
-    }
+    updateLocationAttribute(
+      $city,
+      $request->input('lat'),
+      $request->input('lng')
+    );
 
     $modelResource = new CityResource($city);
 
@@ -61,15 +59,14 @@ class CityController extends Controller
 
     $city->update($data);
 
-    $lat = $request->input('lat');
-    $lng = $request->input('lng');
+    $locationChanged =
+      updateLocationAttribute(
+        $city,
+        $request->input('lat'),
+        $request->input('lng')
+      );
 
-    if (!empty($lat) && !empty($lng)) {
-      $city->location = new Point($lat, $lng);
-      $city->save();
-    }
-
-    if ($city->wasChanged()) {
+    if ($city->wasChanged() || $locationChanged) {
       $modelResource = new CityResource($city);
       return modelResponse('PATCH', __('models.city'), $modelResource);
     } else {

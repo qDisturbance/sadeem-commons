@@ -1,0 +1,52 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
+class ImportForeignTables extends Migration
+{
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    if (config('sadeem.use_dandelion_resources')) {
+
+      $fdw_server = config('sadeem.resource.db_fdw_server');
+      $server_schema = config('sadeem.resource.db_schema');
+
+      $cities = config('sadeem.resource.tables.cities');
+      $weather = config('sadeem.resource.tables.weather');
+      $countries = config('sadeem.resource.tables.countries');
+      $prayer_times = config('sadeem.resource.tables.prayer_times');
+
+      DB::unprepared("
+        IMPORT FOREIGN SCHEMA {$server_schema}
+        LIMIT TO ({$cities},{$countries},{$weather},{$prayer_times})
+        FROM SERVER {$fdw_server}
+        INTO public
+    ");
+    }
+  }
+
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    $cities = config('sadeem.resource.tables.cities');
+    $weather = config('sadeem.resource.tables.weather');
+    $countries = config('sadeem.resource.tables.countries');
+    $prayer_times = config('sadeem.resource.tables.prayer_times');
+
+    DB::unprepared("DROP FOREIGN TABLE IF EXISTS {$cities}");
+    DB::unprepared("DROP FOREIGN TABLE IF EXISTS {$countries}");
+    DB::unprepared("DROP FOREIGN TABLE IF EXISTS {$weather}");
+    DB::unprepared("DROP FOREIGN TABLE IF EXISTS {$prayer_times}");
+  }
+}

@@ -38,7 +38,9 @@ return [
     'db_fdw_server' => 'dandelion',
     'tables' => [
       'cities' => 'cities',
-      'weather' => 'weather'
+      'weather' => 'weather',
+      'countries' => 'countries',
+      'prayer_times' => 'prayer_times'
     ],
   ],
 
@@ -47,11 +49,15 @@ return [
       'cities' => '',
       'countries' => '',
       'categories' => '',
+      'weather' => '',
+      'prayer_times' => '',
     ],
     'readonly' => [
       'cities' => '',
       'countries' => '',
       'categories' => '',
+      'weather' => '',
+      'prayer_times' => '',
     ]
   ],
 
@@ -60,12 +66,15 @@ return [
       'cities' => '',
       'countries' => '',
       'categories' => '',
+      'weather' => '',
+      'prayer_times' => '',
     ],
     'readonly' => [
       'cities' => '',
       'countries' => '',
       'categories' => '',
       'weather' => '',
+      'prayer_times' => '',
     ]
   ],
 
@@ -80,6 +89,7 @@ return [
       'countries' => ['api'],
       'categories' => ['api'],
       'weather' => ['api'],
+      'prayer_times' => ['api'],
     ]
   ],
 
@@ -88,13 +98,15 @@ return [
     'country' => Sadeem\Commons\Models\Country::class,
     'category' => Sadeem\Commons\Models\Category::class,
     'weather' => Sadeem\Commons\Models\Weather::class,
+    'prayer_times' => Sadeem\Commons\Models\PrayerTime::class,
   ],
 
   'model_names' => [
     'city' => 'city',
     'country' => 'country',
     'category' => 'category',
-    'weather' => 'weather'
+    'weather' => 'weather',
+    'prayer_time' => 'prayer_time'
   ],
 
   'table_names' => [

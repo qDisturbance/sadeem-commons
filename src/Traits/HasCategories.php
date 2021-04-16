@@ -2,8 +2,9 @@
 
 namespace Sadeem\Commons\Traits;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Sadeem\Commons\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasCategories
 {
@@ -18,11 +19,47 @@ trait HasCategories
     );
   }
 
-  // TODO: add sorting by category in the trait
-
   public function getCategoryIdByName($name)
   {
     return Category::where('name', $name)->firstOrFail()->id;
+  }
+
+  public function orderByCategory($query, $sortDirection)
+  {
+
+    $table = config('sadeem.table_names.categories');
+    $morphTable = config('sadeem.table_names.model_has_categories');
+    $morphCol = config('sadeem.column_names.model_morph_key');
+
+    $query
+      ->join(
+        $morphTable,
+        "{$morphTable}.{$morphCol}",
+        '=',
+        $this->getTable() . ".id"
+      )
+      ->join(
+        $table,
+        "{$table}.id",
+        '=',
+        "{$morphTable}.category_id"
+      )
+      ->select(
+        $this->getTable() . ".*",
+        "{$table}.name as category_name"
+      )
+      ->orderBy("category_name", $sortDirection);
+
+    return $query;
+  }
+
+  public function filterByCategory($query, $id)
+  {
+    $query->whereHas('categories', function (Builder $query) use ($id) {
+      $query->where('id', $id);
+    });
+
+    return $query;
   }
 
   /*
@@ -60,5 +97,4 @@ trait HasCategories
 
     return $changed;
   }
-
 }
