@@ -48,7 +48,7 @@ class CategoryRequest extends FormRequest
     $name = $this->input('name');
     $parent_id = $this->input('parent_id');
 
-    $imgValidations = 'file|mimes:jpg,bmp,png|between:50,2048|dimensions:min_width=100,min_height=200';
+    $imgValidations = 'file|mimes:jpg,bmp,png|between:1,16384|dimensions:min_width=50,min_height=50';
 
     if ($this->route()->getActionMethod() == 'updateImage') {
       return ['img' => "required|{$imgValidations}"];
