@@ -25,7 +25,41 @@ class Category extends Model
     'is_disabled'
   ];
 
-  // Model Specific Utilities
+  // Model Utilities
+
+  /**
+   * Recurse through the category parents until a top level category is returned
+   * @param $parent_id
+   * @param $arr
+   * @return array
+   */
+  public function getCategoryPathNames($parent_id, $arr): array
+  {
+    if ($parent_id != null) {
+      $ctg = $this->where('id', $parent_id)->first();
+      array_push($arr, $ctg->name);
+      return $this->getCategoryPathNames($ctg->parent_id, $arr);
+    } else {
+      return $arr;
+    }
+  }
+
+  /**
+   * Recurse through the category parents until a top level category is returned
+   * @param $parent_id
+   * @param $arr
+   * @return array
+   */
+  public function getCategoryPathIds($parent_id, $arr): array
+  {
+    if ($parent_id != null) {
+      $ctg = $this->where('id', $parent_id)->first();
+      array_push($arr, $ctg->id);
+      return $this->getCategoryPathIds($ctg->parent_id, $arr);
+    } else {
+      return $arr;
+    }
+  }
 
   public function getSuperParent($parent_id, $superParent)
   {
@@ -38,52 +72,18 @@ class Category extends Model
     }
   }
 
-  // Model Utilities
-
+  /*
+   * Searches and sort based on the request parameters
+   *
+   */
   public function searchAndSort()
   {
-    $q = request()->input('q', '');
-    $filter = request()->input('filter', '');
-    $sorts = explode(',', request()->input('sort', ''));
-    $confirmedSort = confirmColumns($sorts, $this->table);
-
-    $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
-
-    return $this
-      ->when($arr['qOnly'], function () use ($q) {
-        return $this->similarity('name', $q);
-      })
-      ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
-        [$criteria, $value] = $this->confirmFilter();
-
-//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
-
-        return $this
-          ->similarity('name', $q)
-          ->where($criteria, $value);
-      })
-      ->when($arr['sortFilter'], function () use ($sorts) {
-        [$criteria, $value] = $this->confirmFilter();
-
-//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
-
-        return $this
-          ->orderQuery($sorts)
-          ->where($criteria, $value);
-      })
-      ->when($arr['sortOnly'], function () use ($sorts) {
-        return $this->orderQuery($sorts);
-      })
-      ->when($arr['filterOnly'], function () use ($sorts) {
-        [$criteria, $value] = $this->confirmFilter();
-
-//        if ($criteria == "{$this->getTable()}.parent_id") $value = $this->id;
-
-        return $this->where($criteria, $value);
-      })
-      ->when($arr['default'], function () {
-        return $this;
-      });
+    return searchAndSort(
+      $this,
+      $this->getTable(),
+      [],
+      'name'
+    );
   }
 
   public function similarity($column, $q)
@@ -100,7 +100,7 @@ class Category extends Model
   {
     return confirmFilter(
       request('filter'),
-      $this->table,
+      'categories',
       "name"
     );
   }

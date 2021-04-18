@@ -3,7 +3,6 @@
 namespace Sadeem\Commons\Http\Controllers;
 
 use Illuminate\Http\Response;
-use MStaack\LaravelPostgis\Geometries\Point;
 use Sadeem\Commons\Http\Requests\CityRequest;
 use Sadeem\Commons\Http\Resources\CityResource;
 use Sadeem\Commons\Models\City;

@@ -1,7 +1,10 @@
 <?php
 
-use Illuminate\Database\Eloquent\Builder;
+use Sadeem\Commons\Traits\HasCategories;
+use Sadeem\Commons\Traits\HasCity;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use MStaack\LaravelPostgis\Geometries\Point;
 
 /**
@@ -37,17 +40,12 @@ function confirmColumns($sorts, $tableName, $relationColumns = []): bool
 }
 
 /**
- * Takes a filter and check it over table columns
- * can make a default column if the check fails
- * can add relation columns to pass the check
- *
- * @param $filter
- * @param $tableName
- * @param $default
- * @param $relationColumns
+ * @param $filter string
+ * @param $tableName string
+ * @param $default string
  * @return array
  */
-function confirmFilter($filter, $tableName, $default, $relationColumns = []): array
+function confirmFilter($filter, $tableName, $default): array
 {
   if (!strpos($filter, ':')) return [$default, ''];
 
@@ -56,8 +54,9 @@ function confirmFilter($filter, $tableName, $default, $relationColumns = []): ar
   $exists = confirmColumns([$criteria], $tableName);
 
   if ($exists) return [$tableName . '.' . $criteria, $value];
-//  if ($criteria == 'role') return [$criteria, $value];
-  if (in_array($criteria, $relationColumns)) return [$criteria, $value];
+  if ($criteria == 'role') return [$criteria, $value];
+  if ($criteria == 'city') return [$criteria, $value];
+  if ($criteria == 'category') return [$criteria, $value];
 
   return [$tableName . '.' . $default, $value];
 }
@@ -75,13 +74,13 @@ function isDisabledSwitch($modelInstance): void
   $modelInstance->save();
 }
 
-/*
+/**
  * Similarity By Column string search for all models.
  *
  * @param $modelInstance
  * @param $column
  * @param $q
- * @return mixed
+ *
  */
 function similarityByColumn($modelInstance, $column, $q)
 {
@@ -104,17 +103,12 @@ function similarityByColumn($modelInstance, $column, $q)
 function orderQuery($modelInstance, $sorts): Builder
 {
 
-  $citiesTableName = config('sadeem.table_names.cities');
-  $citiesColumnName = config('sadeem.column_names.city_id');
-
-  $modelHasCategoriesTableName = config('sadeem.table_names.model_has_categories');
-  $modelMorphKey = config('sadeem.column_names.model_morph_key');
-  $categoriesTableName = config('sadeem.table_names.categories');
+  $class = get_class($modelInstance);
+  $traits = class_uses($class);
 
   $query = $modelInstance::query();
 
   foreach ($sorts as $sortColumn) {
-
     // remove empty spaces
     $sortColumn = str_replace(' ', '', $sortColumn);
 
@@ -126,41 +120,23 @@ function orderQuery($modelInstance, $sorts): Builder
 
     if ($sortColumn == 'city_id' || $sortColumn == 'city') {
 
-      // sort by city name instead of city_id
+      // sort by city morph relation in the trait
+      $modelInstance->orderByCity($query, $sortDirection);
 
-      $query
-        ->join($citiesTableName,
-          $modelInstance->getTable() . "." . $citiesColumnName,
-          "=", "{$citiesTableName}.id")
-        ->select("{$modelInstance->getTable()}.*")
-        ->orderBy($citiesTableName . ".name", $sortDirection);
-    } elseif ($sortColumn == 'category') {
+    } elseif ($sortColumn == 'category_id' || $sortColumn == 'category') {
 
-      // sort by category morph relation
+      // sort by category morph relation in the trait
+      $modelInstance->orderByCategory($query, $sortDirection);
 
-      $query
-        ->join(
-          "{$modelHasCategoriesTableName}",
-          "{$modelHasCategoriesTableName}.{$modelMorphKey}",
-          '=',
-          $modelInstance->getTable() . ".id"
-        )
-        ->join(
-          "{$categoriesTableName}",
-          "{$categoriesTableName}.id",
-          '=',
-          "{$modelHasCategoriesTableName}.category_id"
-        )
-        ->select(
-          $modelInstance->getTable() . ".*",
-          "{$categoriesTableName}.name as category_name"
-        )
-        ->orderBy("category_name", $sortDirection);
+    } elseif ($sortColumn == 'role') {
+      // sort by role morph relation in the trait
+      $modelInstance->orderByRole($query, $sortDirection);
+
     } else {
-
       // sort by table column
       $query->orderBy($sortColumn, $sortDirection);
     }
+
   }
 
   return $query;
@@ -214,3 +190,187 @@ function updateLocationAttribute($moduleInstance, $lat, $lng): bool
   return $changed;
 }
 
+/*
+|--------------------------------------------------------------------------
+| Search and Sort
+|--------------------------------------------------------------------------
+|
+| the application search and sort handler
+| this function is fit to be used inside
+| any model that defines it in its class
+|
+*/
+function searchAndSort($modelInstance, $tableName, $relations, $similarityColumn)
+{
+  $q = request()->input('q', '');
+  $filter = request()->input('filter', '');
+  $sorts = explode(',', request()->input('sort', ''));
+  $confirmedSort = confirmColumns($sorts, $tableName, $relations);
+
+  $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
+
+  $class = get_class($modelInstance);
+  $traits = class_uses($class);
+
+  return $modelInstance
+    ->when($arr['qOnly'], function () use ($q, $modelInstance, $similarityColumn) {
+
+      /*
+       * --------------------------------------------------------------------------
+       * SIMILARITY ONLY : control
+       * --------------------------------------------------------------------------
+       */
+
+      return $modelInstance->similarity($similarityColumn, $q);
+    })
+    ->when($arr['qFilter'], function () use ($q, $filter, $modelInstance, $similarityColumn, $traits) {
+
+      /*
+       * --------------------------------------------------------------------------
+       * SIMILARITY + FILTER : controls
+       * --------------------------------------------------------------------------
+       */
+
+      [$criteria, $value] = $modelInstance->confirmFilter();
+      if ($value == "null") $value = null;
+
+      // timestamp filters
+      if (
+        $criteria == $modelInstance->getTable() . '.start_at' ||
+        $criteria == $modelInstance->getTable() . '.end_at' ||
+        $criteria == $modelInstance->getTable() . '.completed_at' ||
+        $criteria == $modelInstance->getTable() . '.registered_at' ||
+        $criteria == $modelInstance->getTable() . '.expires_at' ||
+        $criteria == $modelInstance->getTable() . '.created_at' ||
+        $criteria == $modelInstance->getTable() . '.updated_at'
+      ) {
+        return $modelInstance
+          ->similarity($similarityColumn, $q)
+          ->where($criteria, 'like', "%{$value}%");
+      }
+
+      // TRAITS
+      if ($criteria == 'category' && in_array(HasCategories::class, $traits))
+        return $modelInstance->filterByCategory(
+          $modelInstance->similarity($similarityColumn, $q), $value
+        );
+
+      if ($criteria == 'city' && in_array(HasCity::class, $traits))
+        return $modelInstance->filterByCity(
+          $modelInstance->similarity($similarityColumn, $q), $value
+        );
+
+      if ($criteria == 'role' && in_array(HasRoles::class, $traits))
+        return $modelInstance
+          ->similarity($similarityColumn, $q)
+          ->role($value);
+
+      // DEFAULT
+      return $modelInstance
+        ->similarity($similarityColumn, $q)
+        ->where($criteria, $value);
+    })
+    ->when($arr['sortFilter'], function () use ($sorts, $modelInstance, $traits) {
+
+      /*
+       * --------------------------------------------------------------------------
+       * SORT + FILTER : controls
+       * --------------------------------------------------------------------------
+       */
+
+      [$criteria, $value] = $modelInstance->confirmFilter();
+
+      // timestamp filters
+      if (
+        $criteria == $modelInstance->getTable() . '.start_at' ||
+        $criteria == $modelInstance->getTable() . '.end_at' ||
+        $criteria == $modelInstance->getTable() . '.completed_at' ||
+        $criteria == $modelInstance->getTable() . '.registered_at' ||
+        $criteria == $modelInstance->getTable() . '.expires_at' ||
+        $criteria == $modelInstance->getTable() . '.created_at' ||
+        $criteria == $modelInstance->getTable() . '.updated_at'
+      ) {
+        return $modelInstance
+          ->orderQuery($sorts)
+          ->where($criteria, 'like', "%{$value}%");
+      }
+
+      // TRAITS
+      if (
+        $criteria == 'category' && in_array(HasCategories::class, $traits))
+        return $modelInstance->filterByCategory(
+          $modelInstance->orderQuery($sorts), $value
+        );
+
+      if ($criteria == 'city' && in_array(HasCity::class, $traits))
+        return $modelInstance->filterByCity(
+          $modelInstance->orderQuery($sorts), $value
+        );
+
+      if ($criteria == 'role' && in_array(HasRoles::class, $traits))
+        return $modelInstance
+          ->orderQuery($sorts)
+          ->role($value);
+
+      // DEFAULT
+      return $modelInstance
+        ->orderQuery($sorts)
+        ->where($criteria, $value);
+    })
+    ->when($arr['sortOnly'], function () use ($sorts, $modelInstance) {
+      /*
+       * --------------------------------------------------------------------------
+       * SORT ONLY: control
+       * --------------------------------------------------------------------------
+       */
+
+      return $modelInstance->orderQuery($sorts);
+    })
+    ->when($arr['filterOnly'], function () use ($modelInstance, $traits) {
+
+      /*
+       * --------------------------------------------------------------------------
+       * FILTER ONLY: controls
+       * --------------------------------------------------------------------------
+       */
+
+      [$criteria, $value] = $modelInstance->confirmFilter();
+      if ($value == "null") $value = null;
+      // timestamp filters
+      if (
+        $criteria == $modelInstance->getTable() . '.start_at' ||
+        $criteria == $modelInstance->getTable() . '.end_at' ||
+        $criteria == $modelInstance->getTable() . '.completed_at' ||
+        $criteria == $modelInstance->getTable() . '.registered_at' ||
+        $criteria == $modelInstance->getTable() . '.expires_at' ||
+        $criteria == $modelInstance->getTable() . '.created_at' ||
+        $criteria == $modelInstance->getTable() . '.updated_at'
+      ) {
+        return $modelInstance->where($criteria, 'like', "%{$value}%");
+      }
+
+      // TRAITS
+      if (
+        $criteria == 'category' && in_array(HasCategories::class, $traits))
+        return $modelInstance->filterByCategory($modelInstance::query(), $value);
+
+      if ($criteria == 'city' && in_array(HasCity::class, $traits))
+        return $modelInstance->filterByCity($modelInstance::query(), $value);
+
+      if ($criteria == 'role' && in_array(HasRoles::class, $traits))
+        return $modelInstance->role($value);
+
+      // DEFAULT
+      return $modelInstance->where($criteria, $value);
+    })
+    ->when($arr['default'], function () use ($modelInstance) {
+
+      /*
+       * --------------------------------------------------------------------------
+       * DEFAULT: controls
+       * --------------------------------------------------------------------------
+       */
+
+      return $modelInstance;
+    });
+}

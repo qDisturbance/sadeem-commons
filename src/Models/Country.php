@@ -36,59 +36,27 @@ class Country extends Model
     'phone_code',
   ];
 
-  // Model Specific Utilities
+  // Model Utilities
 
+  /*
+   * Searches and sort based on the request parameters
+   *
+   * @param $request
+   * @return Category|mixed
+   */
   public function searchAndSort()
   {
-    $q = request()->input('q', '');
-    $filter = request()->input('filter', '');
-    $sorts = explode(',', request()->input('sort', ''));
-    $confirmedSort = confirmColumns($sorts, $this->table);
-
-    $arr = buildSearchSortFilterConditions($q, $filter, $confirmedSort);
-
-    return $this
-      ->when($arr['qOnly'], function () use ($q) {
-        return $this->similarity($q);
-      })
-      ->when($arr['qFilter'] && request()->filled('filter'), function () use ($q) {
-        [$criteria, $value] = $this->confirmFilter();
-
-        return $this
-          ->similarity($q)
-          ->where($criteria, $value);
-      })
-      ->when($arr['sortFilter'], function () use ($sorts) {
-        [$criteria, $value] = $this->confirmFilter();
-
-        return $this
-          ->orderQuery($sorts)
-          ->where($criteria, $value);
-      })
-      ->when($arr['sortOnly'], function () use ($sorts) {
-        return $this->orderQuery($sorts);
-      })
-      ->when($arr['filterOnly'], function () use ($sorts) {
-        [$criteria, $value] = $this->confirmFilter();
-        return $this->where($criteria, $value);
-      })
-      ->when($arr['default'], function () {
-        return $this;
-      });
+    return searchAndSort(
+      $this,
+      $this->getTable(),
+      [],
+      'name'
+    );
   }
 
-  // General Utilities
-
-  public function similarity($q)
+  public function similarity($column, $q)
   {
-    $similarity = similarityByColumn($this, 'en_name', $q);
-
-    $enResults = $similarity->get();
-    if (count($enResults) > 0) {
-      return $similarity;
-    } else {
-      return similarityByColumn($this, 'ar_name', $q);
-    }
+    return similarityByColumn($this, $column, $q);
   }
 
   public function orderQuery($sorts)
@@ -100,8 +68,8 @@ class Country extends Model
   {
     return confirmFilter(
       request('filter'),
-      $this->table,
-      'name'
+      'cities',
+      "name"
     );
   }
 }
