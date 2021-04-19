@@ -40,10 +40,7 @@ class SadeemServiceProvider extends ServiceProvider
   public function registerRoutes()
   {
 
-    if (!config('sadeem.use_dandelion_resources')) {
-      Route::group($this->routeReadConfiguration('cities'), function () {
-        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
-      });
+    if (config('sadeem.use_dandelion_resources')) {
 
       Route::group($this->routeReadConfiguration('weather'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/weather.php');
@@ -63,6 +60,11 @@ class SadeemServiceProvider extends ServiceProvider
     });
 
     if (!config('sadeem.use_dandelion_resources')) {
+
+      Route::group($this->routeReadConfiguration('cities'), function () {
+        $this->loadRoutesFrom(__DIR__ . '/Routes/readonly/cities.php');
+      });
+
       Route::group($this->routeEditConfiguration('cities'), function () {
         $this->loadRoutesFrom(__DIR__ . '/Routes/admin/cities.php');
       });

@@ -24,6 +24,11 @@ trait HasCategories
     return Category::where('name', $name)->firstOrFail()->id;
   }
 
+  public function getCategoryById($id)
+  {
+    return Category::where('id', $id)->firstOrFail()->id;
+  }
+
   public function orderByCategory($query, $sortDirection)
   {
 
