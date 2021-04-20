@@ -73,6 +73,22 @@ class Category extends Model
   }
 
   /*
+   * returns array of leaves of a category
+   */
+  public function getLeaves($id, $arr)
+  {
+    $categories = Category::where('parent_id', $id)->pluck('id');
+
+    foreach ($categories as $category) {
+      $subCategories = Category::where('parent_id', $category)->pluck('id');
+      foreach ($subCategories as $subCategory) {
+        array_push($arr, $subCategory);
+      }
+    }
+    return $arr;
+  }
+
+  /*
    * Searches and sort based on the request parameters
    *
    */

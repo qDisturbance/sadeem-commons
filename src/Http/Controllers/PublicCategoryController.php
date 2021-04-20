@@ -10,21 +10,23 @@ class PublicCategoryController extends Controller
 {
   public function index()
   {
-    if (!empty(request()->input('paginate'))) {
-      return new CategoryCollection(
-        (new Category())
-          ->searchAndSort()
-          ->where('is_disabled', false)
-          ->paginate(request()->input('paginate', globalPaginationSize()))
-      );
-    } else {
-      return new CategoryCollection(
-        (new Category())
-          ->searchAndSort()
-          ->where('is_disabled', false)
-          ->get()
-      );
+    $categories = (new Category())
+      ->searchAndSort()
+      ->where('is_disabled', false);
+
+    if (!empty(request()->input('leaves'))) {
+      $leaves = (new Category)->getLeaves(request()->input('leaves'), []);
+      $categories = $categories->whereIn('id', $leaves);
     }
+
+    if (!empty(request()->input('paginate'))) {
+      $categories = $categories
+        ->paginate(request()->input('paginate', globalPaginationSize()));
+    } else {
+      $categories = $categories->get();
+    }
+
+    return new CategoryCollection($categories);
   }
 
   public function show(Category $category)

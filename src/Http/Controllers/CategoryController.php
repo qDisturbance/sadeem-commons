@@ -12,20 +12,22 @@ class CategoryController extends Controller
 {
   public function index(): CategoryCollection
   {
-    if (!empty(request()->input('paginate'))) {
-      return new CategoryCollection(
-        (new Category())
-          ->searchAndSort()
-          ->paginate(request()->input('paginate', globalPaginationSize()))
-      );
+    $categories = (new Category())
+      ->searchAndSort();
 
-    } else {
-      return new CategoryCollection(
-        (new Category())
-          ->searchAndSort()
-          ->get()
-      );
+    if (!empty(request()->input('leaves'))) {
+      $leaves = (new Category)->getLeaves(request()->input('leaves'), []);
+      $categories = $categories->whereIn('id', $leaves);
     }
+
+    if (!empty(request()->input('paginate'))) {
+      $categories = $categories
+        ->paginate(request()->input('paginate', globalPaginationSize()));
+    } else {
+      $categories = $categories->get();
+    }
+
+    return new CategoryCollection($categories);
   }
 
   public function show(Category $category): Response
@@ -77,7 +79,7 @@ class CategoryController extends Controller
     $data = $request->only(['name', 'is_disabled']);
 
     if (!empty($request->input('parent_id'))) {
-      $data['parent_id']= Category::where('id', $request->input('parent_id'))->firstOrFail()->id;
+      $data['parent_id'] = Category::where('id', $request->input('parent_id'))->firstOrFail()->id;
     }
 
     $category->update($data);
