@@ -21,6 +21,7 @@ class CategoryResource extends JsonResource
 
     return [
       'id' => $this->id,
+      'parent_id' => $this->parent_id,
       'name' => $this->name,
       'img' => getDomain() . Storage::url($this->img),
       'thumb' => getDomain() . Storage::url("public/pictures/categories/thumbs/{$thumbImageName}"),
