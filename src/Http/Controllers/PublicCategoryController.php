@@ -2,13 +2,14 @@
 
 namespace Sadeem\Commons\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Sadeem\Commons\Models\Category;
 use Sadeem\Commons\Http\Resources\CategoryResource;
 use Sadeem\Commons\Http\Resources\CategoryCollection;
 
 class PublicCategoryController extends Controller
 {
-  public function index()
+  public function index(): CategoryCollection
   {
     $categories = (new Category())
       ->searchAndSort()
@@ -29,7 +30,7 @@ class PublicCategoryController extends Controller
     return new CategoryCollection($categories);
   }
 
-  public function show(Category $category)
+  public function show(Category $category): Response
   {
     if (!$category->is_disabled) {
       $modelResource = new CategoryResource($category);

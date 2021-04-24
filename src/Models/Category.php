@@ -73,7 +73,7 @@ class Category extends Model
   }
 
   /*
-   * returns array of leaves of a category
+   * returns array of 2nd level sub category ids
    */
   public function getLeaves($id, $arr)
   {
@@ -116,7 +116,7 @@ class Category extends Model
   {
     return confirmFilter(
       request('filter'),
-      'categories',
+      $this->getTable(),
       "name"
     );
   }
