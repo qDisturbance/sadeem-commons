@@ -17,7 +17,13 @@ class CategoryResource extends JsonResource
   public function toArray($request)
   {
 
-    $thumbImageName = 'thumb_'.basename(Storage::url($this->img));
+    $thumbImageName = 'thumb_' . basename(Storage::url($this->img));
+
+    $createdAt = $updatedAt = '';
+    if (config('sadeem.table_timestamps.categories')) {
+      $createdAt = $this->created_at->toIso8601String();
+      $updatedAt = $this->updated_at->toIso8601String();
+    }
 
     return [
       'id' => $this->id,
@@ -28,11 +34,11 @@ class CategoryResource extends JsonResource
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->created_at->toIso8601String()
+        $createdAt
       ),
       'updated_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->updated_at->toIso8601String()
+        $updatedAt
       ),
       'parent' => $this->getCategoryPath($this->parent_id, $arr = [])
     ];
@@ -45,8 +51,7 @@ class CategoryResource extends JsonResource
    */
   protected function getCategoryPath($parent_id, $arr)
   {
-    if ($parent_id != null)
-    {
+    if ($parent_id != null) {
       $ctg = $this->where('id', $parent_id)->first();
       array_push($arr, $ctg->name);
       return $this->getCategoryPath($ctg->parent_id, $arr);

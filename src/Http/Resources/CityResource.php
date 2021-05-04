@@ -18,6 +18,12 @@ class CityResource extends JsonResource
   {
     $countryCondition = getIncludeCondition($request->input('include'), 'country');
 
+    $createdAt = $updatedAt = '';
+    if (config('sadeem.table_timestamps.categories')) {
+      $createdAt = $this->created_at->toIso8601String();
+      $updatedAt = $this->updated_at->toIso8601String();
+    }
+
     return [
       'id' => $this->id,
       'country_id' => $this->when(
@@ -33,11 +39,11 @@ class CityResource extends JsonResource
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.cities'),
-        $this->created_at->toIso8601String()
+        $createdAt
       ),
       'updated_at' => $this->when(
         config('sadeem.table_timestamps.cities'),
-        $this->updated_at->toIso8601String()
+        $updatedAt
       ),
       'location' => $this->location
     ];

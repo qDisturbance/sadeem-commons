@@ -15,14 +15,20 @@ class WeatherResource extends JsonResource
    */
   public function toArray($request)
   {
+    $createdAt = $updatedAt = '';
+    if (config('sadeem.table_timestamps.categories')) {
+      $createdAt = $this->created_at->toIso8601String();
+      $updatedAt = $this->updated_at->toIso8601String();
+    }
+
     return [
       'city' => $this->city->makeHidden([
         'is_disabled',
         'created_at',
         'updated_at'
       ]),
-      'created_at' => $this->created_at->toIso8601String(),
-      'updated_at' => $this->updated_at->toIso8601String(),
+      'created_at' => $createdAt,
+      'updated_at' => $updatedAt,
       'weather' => json_decode($this->weather),
     ];
   }
