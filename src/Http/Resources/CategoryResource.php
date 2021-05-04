@@ -28,11 +28,11 @@ class CategoryResource extends JsonResource
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->created_at
+        $this->created_at->toIso8601String()
       ),
       'updated_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->updated_at
+        $this->updated_at->toIso8601String()
       ),
       'parent' => $this->getCategoryPath($this->parent_id, $arr = [])
     ];

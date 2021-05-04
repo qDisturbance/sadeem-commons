@@ -33,11 +33,11 @@ class CityResource extends JsonResource
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.cities'),
-        $this->created_at
+        $this->created_at->toIso8601String()
       ),
       'updated_at' => $this->when(
         config('sadeem.table_timestamps.cities'),
-        $this->updated_at
+        $this->updated_at->toIso8601String()
       ),
       'location' => $this->location
     ];
