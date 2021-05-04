@@ -67,7 +67,7 @@ class CategoryRequest extends FormRequest
           }),
         ],
         'img' => $imgValidations,
-        'parent_id' => "sometimes|string|exists:{$table},id",
+        'parent_id' => "nullable|string|exists:{$table},id",
       ];
     };
     if ($method == "PATCH") {

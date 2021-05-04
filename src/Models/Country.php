@@ -48,28 +48,10 @@ class Country extends Model
   {
     return searchAndSort(
       $this,
+      $this::query(),
       $this->getTable(),
       [],
       'name'
-    );
-  }
-
-  public function similarity($column, $q)
-  {
-    return similarityByColumn($this, $column, $q);
-  }
-
-  public function orderQuery($sorts)
-  {
-    return orderQuery($this, $sorts);
-  }
-
-  public function confirmFilter()
-  {
-    return confirmFilter(
-      request('filter'),
-      'cities',
-      "name"
     );
   }
 }
