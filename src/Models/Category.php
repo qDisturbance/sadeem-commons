@@ -89,8 +89,31 @@ class Category extends Model
   }
 
   /*
+   * -----------------------------------------------------------
+   *  Model Attributes
+   * -----------------------------------------------------------
+   */
+  public function getCreatedAtAttribute(): ?string
+  {
+    return $this->serializeDate($this->attributes['created_at']);
+  }
+
+  public function getUpdatedAtAttribute(): ?string
+  {
+    return $this->serializeDate($this->attributes['updated_at']);
+  }
+
+  /*
+   * -----------------------------------------------------------
+   *  Model Utilities
+   * -----------------------------------------------------------
+   */
+
+  /*
    * Searches and sort based on the request parameters
    *
+   * @param $request
+   * @return Category|mixed
    */
   public function searchAndSort()
   {
