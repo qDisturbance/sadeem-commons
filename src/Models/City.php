@@ -4,13 +4,12 @@ namespace Sadeem\Commons\Models;
 
 use Sadeem\Commons\Traits\HasCountry;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Sadeem\Commons\Traits\Iso8601Serialization;
 use MStaack\LaravelPostgis\Eloquent\PostgisTrait;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class City extends Model
 {
-  use LogsActivity, PostgisTrait, HasCountry, Iso8601Serialization;
+  use LogsActivity, PostgisTrait, HasCountry;
 
 
   public function __construct(array $attributes = [])
@@ -51,21 +50,6 @@ class City extends Model
 
   /*
    * -----------------------------------------------------------
-   *  Model Attributes
-   * -----------------------------------------------------------
-   */
-  public function getCreatedAtAttribute(): ?string
-  {
-    return $this->serializeDate($this->attributes['created_at']);
-  }
-
-  public function getUpdatedAtAttribute(): ?string
-  {
-    return $this->serializeDate($this->attributes['updated_at']);
-  }
-
-  /*
-   * -----------------------------------------------------------
    *  Model Utilities
    * -----------------------------------------------------------
    */
@@ -74,7 +58,7 @@ class City extends Model
    * Searches and sort based on the request parameters
    *
    * @param $request
-   * @return city|mixed
+   * @return Category|mixed
    */
   public function searchAndSort()
   {

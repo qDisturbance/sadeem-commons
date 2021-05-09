@@ -19,6 +19,12 @@ class CategoryResource extends JsonResource
 
     $thumbImageName = 'thumb_' . basename(Storage::url($this->img));
 
+    $createdAt = $updatedAt = '';
+    if (config('sadeem.table_timestamps.categories')) {
+      $createdAt = $this->created_at->toIso8601String();
+      $updatedAt = $this->updated_at->toIso8601String();
+    }
+
     return [
       'id' => $this->id,
       'parent_id' => $this->parent_id,
@@ -28,11 +34,11 @@ class CategoryResource extends JsonResource
       'is_disabled' => $this->is_disabled,
       'created_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->created_at
+        $createdAt
       ),
       'updated_at' => $this->when(
         config('sadeem.table_timestamps.categories'),
-        $this->updated_at
+        $updatedAt
       ),
       'parent' => $this->getCategoryPath($this->parent_id, $arr = [])
     ];

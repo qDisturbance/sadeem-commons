@@ -3,12 +3,11 @@
 namespace Sadeem\Commons\Models;
 
 use Sadeem\Commons\Traits\HasCity;
-use Sadeem\Commons\Traits\Iso8601Serialization;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class Weather extends Model
 {
-  use HasCity, Iso8601Serialization;
+  use HasCity;
 
   public function __construct(array $attributes = [])
   {
@@ -33,19 +32,4 @@ class Weather extends Model
     'city_id',
     'weather'
   ];
-
-  /*
-   * -----------------------------------------------------------
-   *  Model Attributes
-   * -----------------------------------------------------------
-   */
-  public function getCreatedAtAttribute(): ?string
-  {
-    return $this->serializeDate($this->attributes['created_at']);
-  }
-
-  public function getUpdatedAtAttribute(): ?string
-  {
-    return $this->serializeDate($this->attributes['updated_at']);
-  }
 }
