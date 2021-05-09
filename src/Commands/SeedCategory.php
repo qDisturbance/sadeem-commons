@@ -4,8 +4,11 @@
 namespace Sadeem\Commons\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Sadeem\Commons\Models\Category;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SeedCategory extends Command
 {
@@ -29,10 +32,19 @@ class SeedCategory extends Command
 
       if ($data[4] == 'NULL') $data[4] = null;
 
+      $filename = 'public/pictures/freelancers/picsum_' . Str::uuid() . '.jpg';
+//      $thumb = 'public/pictures/freelancers/thumbs/thumb_' . basename($filename);
+      $url = 'https://picsum.photos/480/480';
+      Storage::put($filename, file_get_contents($url));
+
+      $msg = "downloaded: {$filename}";
+      $output = new ConsoleOutput();
+      $output->writeln("<info>$msg</info>");
+
       Category::create([
         'id' => $data[0],
         'name' => $data[1],
-        'img' => $data[2],
+        'img' => $filename,
         'is_disabled' => $data[3],
         'parent_id' => $data[4]
       ]);
