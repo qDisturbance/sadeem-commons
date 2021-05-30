@@ -32,7 +32,8 @@ class SeedCategory extends Command
 
       if ($data[4] == 'NULL') $data[4] = null;
 
-      $filename = 'public/pictures/freelancers/picsum_' . Str::uuid() . '.jpg';
+      // TODO: fix output in the seeder
+      $filename = 'public/pictures/categories/picsum_' . Str::uuid() . '.jpg';
 //      $thumb = 'public/pictures/freelancers/thumbs/thumb_' . basename($filename);
       $url = 'https://picsum.photos/480/480';
       Storage::put($filename, file_get_contents($url));
