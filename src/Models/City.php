@@ -57,20 +57,12 @@ class City extends Model
 
   public function getCreatedAtAttribute()
   {
-    if (config('sadeem.table_timestamps.cities')) {
-      return $this->serializeDate($this->attributes['created_at']);
-    } else {
-      return [];
-    }
+    return $this->serializeDate($this->attributes['created_at']);
   }
 
   public function getUpdatedAtAttribute()
   {
-    if (config('sadeem.table_timestamps.cities')) {
-      return $this->serializeDate($this->attributes['updated_at']);
-    } else {
-      return [];
-    }
+    return $this->serializeDate($this->attributes['updated_at']);
   }
 
   /*
