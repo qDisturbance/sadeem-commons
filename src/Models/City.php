@@ -4,12 +4,13 @@ namespace Sadeem\Commons\Models;
 
 use Sadeem\Commons\Traits\HasCountry;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Sadeem\Commons\Traits\Iso8601Serialization;
 use MStaack\LaravelPostgis\Eloquent\PostgisTrait;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class City extends Model
 {
-  use LogsActivity, PostgisTrait, HasCountry;
+  use LogsActivity, PostgisTrait, HasCountry, Iso8601Serialization;
 
 
   public function __construct(array $attributes = [])
@@ -47,6 +48,30 @@ class City extends Model
       'srid' => 4326
     ]
   ];
+
+  /*
+   * -----------------------------------------------------------
+   *  Model Attributes
+   * -----------------------------------------------------------
+   */
+
+  public function getCreatedAtAttribute()
+  {
+    if (config('sadeem.table_timestamps.cities')) {
+      return $this->serializeDate($this->attributes['created_at']);
+    } else {
+      return [];
+    }
+  }
+
+  public function getUpdatedAtAttribute()
+  {
+    if (config('sadeem.table_timestamps.cities')) {
+      return $this->serializeDate($this->attributes['updated_at']);
+    } else {
+      return [];
+    }
+  }
 
   /*
    * -----------------------------------------------------------

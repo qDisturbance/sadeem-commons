@@ -20,8 +20,8 @@ class CityResource extends JsonResource
 
     $createdAt = $updatedAt = '';
     if (config('sadeem.table_timestamps.cities')) {
-      $createdAt = $this->created_at->toIso8601String();
-      $updatedAt = $this->updated_at->toIso8601String();
+      $createdAt = $this->created_at;
+      $updatedAt = $this->updated_at;
     }
 
     return [

@@ -32,4 +32,20 @@ class Weather extends Model
     'city_id',
     'weather'
   ];
+
+  /*
+   * -----------------------------------------------------------
+   *  Model Attributes
+   * -----------------------------------------------------------
+   */
+
+  public function getCreatedAtAttribute()
+  {
+    return $this->serializeDate($this->attributes['created_at']);
+  }
+
+  public function getUpdatedAtAttribute()
+  {
+    return $this->serializeDate($this->attributes['updated_at']);
+  }
 }

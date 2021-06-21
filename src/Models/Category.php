@@ -3,11 +3,14 @@
 namespace Sadeem\Commons\Models;
 
 use Spatie\Activitylog\Traits\LogsActivity;
+use Sadeem\Commons\Traits\Iso8601Serialization;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Model;
 
 class Category extends Model
 {
-  use LogsActivity;
+  use
+    Iso8601Serialization,
+    LogsActivity;
 
   public function __construct(array $attributes = [])
   {
@@ -24,6 +27,30 @@ class Category extends Model
     'parent_id',
     'is_disabled'
   ];
+
+  /*
+   * -----------------------------------------------------------
+   *  Model Attributes
+   * -----------------------------------------------------------
+   */
+
+  public function getCreatedAtAttribute()
+  {
+    if (config('sadeem.table_timestamps.categories')) {
+      return $this->serializeDate($this->attributes['created_at']);
+    } else {
+      return [];
+    }
+  }
+
+  public function getUpdatedAtAttribute()
+  {
+    if (config('sadeem.table_timestamps.categories')) {
+      return $this->serializeDate($this->attributes['updated_at']);
+    } else {
+      return [];
+    }
+  }
 
   // Model Utilities
 
